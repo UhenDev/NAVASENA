@@ -1,141 +1,242 @@
 /**
- * NAVASENA MANAGEMENT — Print Stylesheet
- * Optimized for official school reports, receipts, and formal audit accountability
+ * GUARDIAN OF NAVASENA 27 — SMKN 1 PANYINGKIRAN
+ * Executive Official Document & Print Stylesheet
+ * High-Contrast Audit-Grade Document Output
  */
 
 @media print {
-    /* Hide all application navigation chrome */
-    .app-sidebar,
-    .app-topbar,
-    .menu-toggle-btn,
-    .btn,
-    .filter-bar,
-    .no-print,
-    .modal-overlay,
-    .alert {
-        display: none !important;
-    }
+  /* 1. Reset Global Canvas to Pure Crisp White Paper */
+  html, body {
+    background: #FFFFFF !important;
+    background-image: none !important;
+    color: #0F172A !important;
+    font-size: 11pt !important;
+    line-height: 1.45 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 
-    body {
-        background: #FFFFFF !important;
-        color: #000000 !important;
-        font-size: 11pt !important;
-        line-height: 1.4 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+  body::before {
+    display: none !important;
+  }
 
-    .app-layout {
-        display: block !important;
-    }
+  /* 2. Hide Navigation Chrome & Non-Print Elements */
+  .app-sidebar,
+  .app-topbar,
+  .mobile-dock,
+  .sidebar-backdrop,
+  .menu-toggle-btn,
+  .btn,
+  .filter-bar,
+  .modal-overlay,
+  .alert,
+  .no-print,
+  .quick-nominal-chips,
+  .glass-keypad {
+    display: none !important;
+  }
 
-    .app-main {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+  .app-layout, .app-main, .app-content {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
 
-    .app-content {
-        padding: 0 !important;
-    }
+  .card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin-bottom: 2rem !important;
+  }
 
-    .card {
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin-bottom: 1.5rem !important;
-    }
+  /* 3. Official Receipt Layout (Kuitansi Resmi) */
+  .receipt-card, .receipt-container {
+    background: #FFFFFF !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 2.5rem !important;
+    border: 2px solid #B8860B !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    position: relative !important;
+    page-break-inside: avoid !important;
+  }
 
-    /* Print Header */
-    .print-header {
-        text-align: center;
-        border-bottom: 2px solid #000000;
-        padding-bottom: 12px;
-        margin-bottom: 20px;
-    }
+  /* Owl Crest Watermark behind receipt */
+  .receipt-watermark-print {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 380px !important;
+    height: 380px !important;
+    background: url('../img/logo.png') center center no-repeat !important;
+    background-size: contain !important;
+    opacity: 0.05 !important;
+    pointer-events: none !important;
+  }
 
-    .print-header h1 {
-        font-size: 16pt;
-        text-transform: uppercase;
-        margin: 0 0 4px 0;
-        color: #000000;
-    }
+  /* Kop Surat Header */
+  .print-kop {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    border-bottom: 2px solid #B8860B !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
 
-    .print-header h2 {
-        font-size: 13pt;
-        margin: 0 0 4px 0;
-        color: #333333;
-    }
+  .print-kop-crest {
+    width: 70px !important;
+    height: 70px !important;
+    flex-shrink: 0 !important;
+  }
 
-    .print-header p {
-        font-size: 9.5pt;
-        margin: 0;
-        color: #555555;
-    }
+  .print-kop-crest img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
 
-    /* Table styles for print */
-    .data-table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        font-size: 9.5pt !important;
-        margin-top: 10px !important;
-    }
+  .print-kop-text {
+    flex: 1 !important;
+    text-align: center !important;
+  }
 
-    .data-table th,
-    .data-table td {
-        border: 1px solid #333333 !important;
-        padding: 6px 8px !important;
-        color: #000000 !important;
-    }
+  .print-kop-text h1 {
+    font-family: 'Cinzel', Georgia, serif !important;
+    font-size: 15pt !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+  }
 
-    .data-table th {
-        background-color: #F1F5F9 !important;
-        font-weight: bold !important;
-        text-transform: uppercase;
-    }
+  .print-kop-text h2 {
+    font-family: 'Cinzel', Georgia, serif !important;
+    font-size: 12pt !important;
+    font-weight: 700 !important;
+    color: #B8860B !important;
+    margin: 0.15rem 0 !important;
+  }
 
-    .data-table tr {
-        page-break-inside: avoid !important;
-    }
+  .print-kop-text p {
+    font-size: 8.5pt !important;
+    color: #475569 !important;
+    margin: 0 !important;
+  }
 
-    /* Signatures Section */
-    .print-signatures {
-        display: flex !important;
-        justify-content: space-between !important;
-        margin-top: 40px !important;
-        page-break-inside: avoid !important;
-    }
+  /* Receipt Rows & Typography */
+  .receipt-row {
+    display: flex !important;
+    margin-bottom: 0.65rem !important;
+    font-size: 10pt !important;
+  }
 
-    .signature-block {
-        text-align: center !important;
-        width: 200px !important;
-    }
+  .receipt-col-label {
+    width: 180px !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    flex-shrink: 0 !important;
+  }
 
-    .signature-space {
-        height: 65px !important;
-    }
+  .receipt-col-dots {
+    width: 16px !important;
+    flex-shrink: 0 !important;
+  }
 
-    .signature-name {
-        font-weight: bold !important;
-        text-decoration: underline !important;
-        margin-bottom: 2px !important;
-    }
+  .receipt-col-val {
+    flex: 1 !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+  }
 
-    .signature-role {
-        font-size: 9pt !important;
-        color: #333333 !important;
-    }
+  .terbilang-box {
+    background: #F8FAFC !important;
+    border: 1px dashed #CBD5E1 !important;
+    padding: 0.75rem 1rem !important;
+    font-style: italic !important;
+    font-weight: 600 !important;
+    color: #1E293B !important;
+    border-radius: 4px !important;
+    margin: 1rem 0 !important;
+  }
 
-    /* Official Receipt Box (Kuitansi Resmi) */
-    .receipt-container {
-        border: 2px solid #000000 !important;
-        padding: 24px !important;
-        margin: 20px auto !important;
-        max-width: 720px !important;
-        page-break-inside: avoid !important;
-    }
+  /* Tables in Print */
+  .data-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.25rem 0 !important;
+    font-size: 9.5pt !important;
+  }
 
-    a {
-        text-decoration: none !important;
-        color: #000000 !important;
-    }
+  .data-table th, .data-table td {
+    border: 1px solid #CBD5E1 !important;
+    padding: 8px 10px !important;
+    color: #0F172A !important;
+    background: transparent !important;
+  }
+
+  .data-table thead th {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #B8860B !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Formal Verification Stamp & Signatures Box */
+  .print-signatures {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 2.5rem !important;
+    page-break-inside: avoid !important;
+  }
+
+  .signature-box {
+    width: 220px !important;
+    text-align: center !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 6px !important;
+    padding: 0.75rem !important;
+    background: #FAFAFA !important;
+  }
+
+  .signature-title {
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    margin-bottom: 3.5rem !important;
+  }
+
+  .signature-name {
+    font-weight: 800 !important;
+    text-decoration: underline !important;
+    color: #0F172A !important;
+    font-size: 10pt !important;
+  }
+
+  .signature-nip {
+    font-size: 8pt !important;
+    color: #64748B !important;
+    margin-top: 2px !important;
+  }
+
+  /* Audit Security Footer */
+  .print-audit-footer {
+    margin-top: 2rem !important;
+    padding-top: 0.75rem !important;
+    border-top: 1px solid #E2E8F0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 7.5pt !important;
+    color: #64748B !important;
+    font-family: 'JetBrains Mono', monospace !important;
+  }
 }

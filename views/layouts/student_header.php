@@ -10,50 +10,67 @@ $user = Auth::user();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= View::e($pageTitle ?? 'Portal Keuangan Siswa') ?> — NAVASENA MANAGEMENT</title>
+    <title><?= View::e($pageTitle ?? 'Portal Keuangan Siswa') ?> — GUARDIAN OF NAVASENA 27</title>
+    <link rel="icon" type="image/png" href="<?= View::url('/assets/img/logo.png') ?>">
     <link rel="stylesheet" href="<?= View::url('/assets/css/main.css') ?>">
     <link rel="stylesheet" href="<?= View::url('/assets/css/print.css') ?>" media="print">
     <style>
-        .portal-header {
-            background-color: var(--primary);
-            color: #FFFFFF;
-            padding: 1.25rem 2rem;
+        .portal-header-bar {
+            background: rgba(7, 10, 18, 0.85);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border-gold);
+            padding: 1rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
-        .portal-brand {
+        .portal-brand-block {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
-        .portal-container {
-            max-width: 1040px;
+        .portal-crest-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(223, 178, 86, 0.35));
+        }
+        .portal-container-shell {
+            max-width: 1080px;
             margin: 2rem auto;
-            padding: 0 1.25rem;
+            padding: 0 1.25rem 6rem 1.25rem;
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>
-<body style="background-color: #F8FAFC;">
+<body>
 
-<header class="portal-header">
-    <div class="portal-brand">
-        <div class="brand-logo-icon" style="background:#2563EB;">N</div>
+<header class="portal-header-bar">
+    <div class="portal-brand-block">
+        <img src="<?= View::url('/assets/img/logo.png') ?>" alt="Owl Crest" class="portal-crest-img">
         <div>
-            <h1 style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; line-height: 1.2;">NAVASENA MANAGEMENT</h1>
-            <p style="font-size: 0.775rem; color: #94A3B8;">Portal Keuangan Mandiri Siswa Angkatan</p>
+            <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">
+                GUARDIAN OF NAVASENA 27
+            </div>
+            <div style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase;">
+                Portal Mandiri Siswa &bull; SMKN 1 Panyingkiran
+            </div>
         </div>
     </div>
-    <div style="display: flex; align-items: center; gap: 1rem;">
-        <div style="text-align: right; display: none; @media(min-width:600px){display:block;}">
-            <div style="font-weight: 600; font-size: 0.875rem; color:#FFFFFF;"><?= View::e($user['full_name']) ?></div>
-            <div style="font-size: 0.725rem; color: #93C5FD;">Siswa Angkatan</div>
-        </div>
-        <a href="<?= View::url('/change-password') ?>" class="btn btn-secondary btn-sm" style="background: rgba(255,255,255,0.15); border:none; color:#FFFFFF;">Ganti Password</a>
-        <a href="<?= View::url('/logout') ?>" class="btn btn-secondary btn-sm" style="background: rgba(255,255,255,0.15); border:none; color:#FFFFFF;" onclick="return confirm('Keluar dari portal siswa?')">Keluar</a>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="status-pill status-verified" style="font-size:0.7rem; font-family:var(--font-mono);">
+            <?= View::e($user['username'] ?? '') ?>
+        </span>
+        <a href="<?= View::url('/change-password') ?>" class="btn btn-secondary btn-sm">Ganti Password</a>
+        <a href="<?= View::url('/logout') ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin keluar?')">Keluar</a>
     </div>
 </header>
 
-<div class="portal-container">
+<div class="portal-container-shell">
     <?= Flash::render() ?>

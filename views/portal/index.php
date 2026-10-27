@@ -4,97 +4,119 @@ use App\Helpers\View;
 
 <!-- Pengumuman Resmi Pengurus Angkatan -->
 <?php if (!empty($announcement)): ?>
-    <div class="alert alert-info" style="margin-bottom: 1.5rem; background:#EFF6FF; border-color:#BFDBFE;">
-        <svg class="alert-icon" viewBox="0 0 20 20" fill="currentColor" style="color:#2563EB;">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+    <div class="alert alert-info" style="margin-bottom: 1.5rem; background: rgba(30, 58, 138, 0.25); border-color: rgba(59, 130, 246, 0.4);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold-solid); flex-shrink:0;">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
         </svg>
         <div>
-            <div style="font-weight: 700; color: #1E40AF; margin-bottom: 0.15rem;">Pengumuman Resmi Pengurus:</div>
-            <div style="color: #1E3A8A;"><?= nl2br(View::e($announcement)) ?></div>
+            <div style="font-weight: 700; color: var(--gold-text); margin-bottom: 0.15rem; font-size: 0.85rem; text-transform:uppercase; letter-spacing:0.05em;">
+                Pengumuman Resmi Pengurus Angkatan:
+            </div>
+            <div style="color: #E2E8F0; font-size: 0.875rem;"><?= nl2br(View::e($announcement)) ?></div>
         </div>
     </div>
 <?php endif; ?>
 
-<!-- Identitas Siswa & Ringkasan Tagihan -->
-<div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid var(--brand);">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+<!-- 1. Hero Card: Identitas Siswa & Sisa Tagihan dengan Owl Watermark -->
+<div class="portal-hero-card">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1rem; position:relative; z-index:2;">
         <div>
-            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em;">Identitas Siswa</span>
-            <h1 style="font-size: 1.4rem; font-weight: 800; color: var(--primary); margin: 0.15rem 0;"><?= View::e($student['full_name']) ?></h1>
-            <div style="font-size: 0.875rem; color: var(--text-secondary);">
-                NIS: <strong><?= View::e($student['student_number']) ?></strong> &bull; Kelas: <strong><?= View::e($student['class_name']) ?></strong> &bull; Status: <?= View::statusBadge($student['status']) ?>
+            <div style="font-family: var(--font-display); font-size: 0.775rem; font-weight: 700; text-transform: uppercase; color: var(--gold-text); letter-spacing: 0.12em;">
+                Identitas Siswa &bull; SMKN 1 Panyingkiran
+            </div>
+            <h1 style="font-family: var(--font-display); font-size: 1.65rem; font-weight: 800; color: #FFF; margin: 0.25rem 0;">
+                <?= View::e($student['full_name']) ?>
+            </h1>
+            <div class="tabular-nums" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">
+                NIS: <strong style="color:var(--gold-solid);"><?= View::e($student['student_number']) ?></strong> &bull; Kelas: <strong><?= View::e($student['class_name']) ?></strong> &bull; Status: <?= View::statusBadge($student['status']) ?>
             </div>
         </div>
         <div>
-            <?= View::statusBadge($student['payment_status']) ?>
+            <?php if ($student['payment_status'] === 'lunas'): ?>
+                <span class="status-pill status-verified" style="font-size:0.85rem; padding:0.4rem 1rem;">LUNAS SAH</span>
+            <?php elseif ($student['payment_status'] === 'sebagian'): ?>
+                <span class="status-pill status-pending" style="font-size:0.85rem; padding:0.4rem 1rem;">MENCICIL SEBAGIAN</span>
+            <?php else: ?>
+                <span class="status-pill status-void" style="font-size:0.85rem; padding:0.4rem 1rem;">BELUM BAYAR</span>
+            <?php endif; ?>
         </div>
     </div>
-</div>
 
-<!-- 3 Kartu Metrik Tagihan Pribadi -->
-<div class="metrics-grid">
-    <div class="metric-card">
-        <div class="metric-label">Total Kewajiban Anda</div>
-        <div class="metric-value highlight"><?= View::formatRupiah($student['total_obligation']) ?></div>
-        <div class="metric-sub">Album Fisik: <?= View::formatRupiah($student['album_portion']) ?> | Graduation: <?= View::formatRupiah($student['graduation_portion']) ?></div>
-    </div>
-
-    <div class="metric-card">
-        <div class="metric-label">Pembayaran Terverifikasi (Sah)</div>
-        <div class="metric-value success"><?= View::formatRupiah($student['total_paid']) ?></div>
-        <div class="metric-sub">Telah diverifikasi dan disahkan oleh Bendahara/Ketua</div>
-    </div>
-
-    <div class="metric-card">
-        <div class="metric-label">Sisa Tagihan Anda</div>
-        <div class="metric-value" style="color: <?= (float)$student['remaining_balance'] > 0 ? 'var(--danger-text)' : 'var(--success-text)' ?>;">
+    <div style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; position:relative; z-index:2;">
+        <div class="portal-remaining-title">Sisa Tagihan Iuran Anda</div>
+        <div class="portal-remaining-amount tabular-nums">
             <?= View::formatRupiah($student['remaining_balance']) ?>
         </div>
-        <div class="metric-sub">
-            <?= (float)$student['remaining_balance'] <= 0 ? 'Kewajiban Anda telah Lunas Penuh' : 'Segera lakukan pelunasan sesuai jadwal' ?>
+        <div class="progress-container" style="height: 10px; max-width: 580px; margin-bottom: 0.65rem;">
+            <?php 
+                $pct = ($student['total_obligation'] > 0) ? ($student['total_paid'] / $student['total_obligation']) * 100 : 0;
+            ?>
+            <div class="progress-bar <?= $pct >= 100 ? 'success' : '' ?>" style="width: <?= min(100, $pct) ?>%;"></div>
+        </div>
+        <div class="tabular-nums" style="font-size: 0.8rem; color: var(--text-muted); display:flex; flex-wrap:wrap; gap:1.25rem;">
+            <span>Kewajiban: <strong style="color:#FFF;"><?= View::formatRupiah($student['total_obligation']) ?></strong></span>
+            <span>Terbayar Sah: <strong style="color:var(--verified-fg);"><?= View::formatRupiah($student['total_paid']) ?></strong></span>
+            <span>Rincian: Album Kenangan Rp200rb + Graduation Rp50rb</span>
         </div>
     </div>
 </div>
 
-<!-- Status Progres 3 Tahap Cicilan -->
-<div class="card">
+<!-- 2. Jadwal & Status 3 Tahap Cicilan -->
+<div class="card" style="margin-bottom: 2rem;">
     <div class="card-header">
-        <h2 class="card-title">Status Tahapan Cicilan Resmi</h2>
+        <h2 class="card-title">Jadwal &amp; Status 3 Tahap Cicilan</h2>
+        <span class="status-pill status-verified" style="font-size:0.7rem;">ALOKASI OTOMATIS</span>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
-        <?php foreach ($stages as $stg): ?>
-            <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <div>
-                        <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;"><?= View::e($stg['stage_name']) ?></div>
-                        <div style="font-size: 0.775rem; color: var(--text-muted); margin-top: 0.1rem;">
-                            Jatuh Tempo: <strong><?= View::formatDate($stg['due_date']) ?></strong>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+        <?php foreach ($stages as $idx => $stg): ?>
+            <?php 
+                $isLunas = ((float)$stg['remaining_amount'] <= 0 && (float)$stg['paid_amount'] >= (float)$stg['target_amount']);
+                $isSebagian = ((float)$stg['paid_amount'] > 0 && !$isLunas);
+            ?>
+            <div class="stage-card" style="border-color: <?= $isLunas ? 'var(--verified-border)' : ($isSebagian ? 'var(--pending-border)' : 'var(--glass-border)') ?>;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div class="stage-badge-number"><?= $idx ?></div>
+                        <div>
+                            <div style="font-weight: 700; color: #FFF; font-size: 1rem;"><?= View::e($stg['stage_name']) ?></div>
+                            <div class="tabular-nums" style="font-weight: 800; font-size: 1.15rem; color: var(--gold-solid); margin-top: 2px;">
+                                <?= View::formatRupiah($stg['target_amount']) ?>
+                            </div>
                         </div>
                     </div>
-                    <div><?= View::statusBadge($stg['status']) ?></div>
+                    <div>
+                        <?php if ($isLunas): ?>
+                            <span class="status-pill status-verified">LUNAS SAH</span>
+                        <?php elseif ($isSebagian): ?>
+                            <span class="status-pill status-pending">BELUM LUNAS</span>
+                        <?php else: ?>
+                            <span class="status-pill status-void">BELUM BAYAR</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
-                <div class="progress-container" style="height: 10px; margin: 0.85rem 0;">
+                <div class="progress-container" style="height: 8px; margin: 0.85rem 0;">
                     <div class="progress-bar <?= $stg['percentage'] >= 100 ? 'success' : '' ?>" style="width: <?= min(100, $stg['percentage']) ?>%;"></div>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; font-size: 0.825rem;">
-                    <span>Terbayar: <strong><?= View::formatRupiah($stg['paid_amount']) ?></strong></span>
-                    <span>Target: <strong><?= View::formatRupiah($stg['target_amount']) ?></strong></span>
+                <div class="tabular-nums" style="display: flex; justify-content: space-between; font-size: 0.775rem; color: var(--text-secondary);">
+                    <span>Terbayar: <strong style="color:var(--verified-fg);"><?= View::formatRupiah($stg['paid_amount']) ?></strong></span>
+                    <span>Sisa: <strong style="color:var(--void-fg);"><?= View::formatRupiah($stg['remaining_amount']) ?></strong></span>
                 </div>
-                <div style="font-size: 0.775rem; color: var(--text-muted); margin-top: 0.25rem;">
-                    Sisa Tahap Ini: <strong><?= View::formatRupiah($stg['remaining_amount']) ?></strong>
+                <div style="font-size: 0.725rem; color: var(--text-muted); margin-top: 0.35rem;">
+                    Jatuh Tempo: <strong><?= View::formatDate($stg['due_date']) ?></strong>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
 
-<!-- Riwayat Pembayaran Siswa -->
+<!-- 3. Kuitansi Resmi Sah Anda -->
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Riwayat Transaksi &amp; Bukti Kuitansi Anda</h2>
+        <h2 class="card-title">Kuitansi Resmi Sah Anda</h2>
+        <span style="font-size: 0.775rem; color: var(--text-muted);">Dilengkapi Watermark Resmi Guardian of Navasena 27</span>
     </div>
 
     <div class="table-responsive">
@@ -103,10 +125,10 @@ use App\Helpers\View;
                 <tr>
                     <th>No. Kuitansi</th>
                     <th>Tanggal Bayar</th>
-                    <th class="text-right">Nominal</th>
+                    <th class="text-right">Nominal Sah</th>
                     <th>Metode</th>
-                    <th>Keterangan / Ref</th>
-                    <th class="text-center">Status Verifikasi</th>
+                    <th>Referensi</th>
+                    <th class="text-center">Status</th>
                     <th class="text-center">Dokumen Kuitansi</th>
                 </tr>
             </thead>
@@ -120,28 +142,35 @@ use App\Helpers\View;
                 <?php else: ?>
                     <?php foreach ($payments as $p): ?>
                         <tr>
-                            <td style="font-weight: 700; color: var(--brand);">
+                            <td class="tabular-nums" style="font-weight: 700; color: var(--gold-solid);">
                                 <?= View::e($p['receipt_number']) ?>
                             </td>
-                            <td><?= View::formatDate($p['payment_date']) ?></td>
-                            <td class="text-right" style="font-weight: 700; color: <?= $p['status'] === 'terverifikasi' ? 'var(--success-text)' : 'var(--text-primary)' ?>;">
+                            <td class="tabular-nums"><?= View::formatDate($p['payment_date']) ?></td>
+                            <td class="text-right tabular-nums" style="font-weight: 800; font-size: 0.95rem; color: <?= $p['status'] === 'terverifikasi' ? 'var(--verified-fg)' : 'var(--text-primary)' ?>;">
                                 <?= View::formatRupiah($p['amount']) ?>
                             </td>
-                            <td><?= View::methodBadge($p['payment_method']) ?></td>
-                            <td style="font-size: 0.825rem; color: var(--text-secondary);"><?= View::e($p['reference_note'] ?: '-') ?></td>
+                            <td>
+                                <span class="badge badge-neutral" style="font-size:0.7rem; text-transform:capitalize;">
+                                    <?= View::e($p['payment_method']) ?>
+                                </span>
+                            </td>
+                            <td style="font-size: 0.8rem; color: var(--text-secondary);"><?= View::e($p['reference_note'] ?: '-') ?></td>
                             <td class="text-center">
-                                <?= View::statusBadge($p['status']) ?>
-                                <?php if (!empty($p['rejection_reason'])): ?>
-                                    <div style="font-size: 0.7rem; color: var(--danger-text); margin-top: 2px;">Alasan: <?= View::e($p['rejection_reason']) ?></div>
+                                <?php if ($p['status'] === 'terverifikasi'): ?>
+                                    <span class="status-pill status-verified">TERVERIFIKASI</span>
+                                <?php elseif ($p['status'] === 'menunggu_verifikasi'): ?>
+                                    <span class="status-pill status-pending">MENUNGGU</span>
+                                <?php else: ?>
+                                    <span class="status-pill status-void">DITOLAK / VOID</span>
                                 <?php endif; ?>
                             </td>
                             <td class="text-center">
                                 <?php if ($p['status'] === 'terverifikasi'): ?>
                                     <a href="<?= View::url('/portal/receipt/' . $p['id']) ?>" target="_blank" class="btn btn-primary btn-sm">
-                                        Cetak Kuitansi Resmi
+                                        UNDUH / CETAK KUITANSI RESMI (PDF)
                                     </a>
                                 <?php else: ?>
-                                    <span style="font-size: 0.8rem; color: var(--text-muted);">&mdash; Menunggu Sah &mdash;</span>
+                                    <span style="font-size: 0.775rem; color: var(--text-muted);">&mdash; Menunggu Sah &mdash;</span>
                                 <?php endif; ?>
                             </td>
                         </tr>

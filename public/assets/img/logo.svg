@@ -1,5 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <rect width="100" height="100" rx="20" fill="#0F2744"/>
-  <path d="M28 75 V25 L72 75 V25" fill="none" stroke="#2563EB" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="50" cy="50" r="8" fill="#FFFFFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3B0"/>
+      <stop offset="40%" stop-color="#DFB256"/>
+      <stop offset="80%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#7A5311"/>
+    </linearGradient>
+    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(223, 178, 86, 0.4)"/>
+      <stop offset="100%" stop-color="rgba(7, 10, 18, 0)"/>
+    </radialGradient>
+    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow Circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#goldGlow)"/>
+
+  <!-- Outer Laurel Wreath Ring -->
+  <circle cx="100" cy="100" r="82" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-dasharray="4 3"/>
+  <circle cx="100" cy="100" r="76" fill="none" stroke="url(#goldGrad)" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- Compass Star Points -->
+  <g stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.75">
+    <line x1="100" y1="20" x2="100" y2="180"/>
+    <line x1="20" y1="100" x2="180" y2="100"/>
+    <line x1="43" y1="43" x2="157" y2="157"/>
+    <line x1="43" y1="157" x2="157" y2="43"/>
+  </g>
+
+  <!-- Central Compass Star -->
+  <polygon points="100,65 106,94 135,100 106,106 100,135 94,106 65,100 94,94" fill="url(#goldGrad)"/>
+  <circle cx="100" cy="100" r="4" fill="#070A12"/>
+
+  <!-- Majestic Owl Head & Crown -->
+  <g fill="url(#goldGrad)" stroke="#070A12" stroke-width="0.8">
+    <!-- Royal Crown -->
+    <path d="M85 36 L90 50 L100 42 L110 50 L115 36 L120 54 L80 54 Z"/>
+    <circle cx="85" cy="34" r="2.5" fill="#FFF3B0"/>
+    <circle cx="100" cy="39" r="3" fill="#FFF3B0"/>
+    <circle cx="115" cy="34" r="2.5" fill="#FFF3B0"/>
+
+    <!-- Spread Wings -->
+    <path d="M42 68 C55 58 75 62 88 74 C78 78 60 78 42 68 Z"/>
+    <path d="M30 80 C48 68 70 74 84 86 C72 90 50 90 30 80 Z"/>
+    <path d="M25 96 C45 84 68 88 82 98 C68 102 46 104 25 96 Z"/>
+
+    <path d="M158 68 C145 58 125 62 112 74 C122 78 140 78 158 68 Z"/>
+    <path d="M170 80 C152 68 130 74 116 86 C128 90 150 90 170 80 Z"/>
+    <path d="M175 96 C155 84 132 88 118 98 C132 102 154 104 175 96 Z"/>
+
+    <!-- Owl Face & Eyes -->
+    <path d="M82 54 C82 54 78 70 88 82 C94 88 106 88 112 82 C122 70 118 54 118 54 C112 58 100 58 82 54 Z"/>
+    <circle cx="92" cy="68" r="6" fill="#070A12" stroke="url(#goldGrad)" stroke-width="2"/>
+    <circle cx="108" cy="68" r="6" fill="#070A12" stroke="url(#goldGrad)" stroke-width="2"/>
+    <circle cx="92" cy="68" r="2.5" fill="#FFF3B0"/>
+    <circle cx="108" cy="68" r="2.5" fill="#FFF3B0"/>
+    <!-- Beak -->
+    <polygon points="100,72 96,80 104,80" fill="#FFF3B0"/>
+  </g>
+
+  <!-- Banner: 27 NAVASENA -->
+  <g fill="url(#goldGrad)">
+    <path d="M60 156 Q100 166 140 156 L136 172 Q100 182 64 172 Z" opacity="0.95"/>
+    <text x="100" y="167" font-family="'Cinzel', Georgia, serif" font-size="9" font-weight="800" fill="#070A12" text-anchor="middle" letter-spacing="1.5">NAVASENA 27</text>
+  </g>
 </svg>

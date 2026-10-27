@@ -143,7 +143,7 @@ $postDataSiswa = [
     'password'   => 'password'
 ];
 $resAuthSiswa = makeRequest($baseUrl . '/login', 'POST', $postDataSiswa, $cookieFile);
-if (strpos($resAuthSiswa['body'], 'Portal Iuran Siswa') !== false || strpos($resAuthSiswa['body'], 'Naufal Gunawan') !== false) {
+if (strpos($resAuthSiswa['body'], 'Portal Keuangan') !== false || strpos($resAuthSiswa['body'], 'Identitas Siswa') !== false || strpos($resAuthSiswa['body'], '20261001') !== false) {
     echo "    [PASS] Login Siswa berhasil dan diarahkan ke Portal Siswa\n";
 } else {
     echo "    [FAIL] Portal Siswa tidak dapat diakses setelah login\n";

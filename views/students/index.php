@@ -3,19 +3,24 @@ use App\Helpers\View;
 ?>
 <div class="page-header">
     <div>
-        <h1 class="page-title">Data Siswa Angkatan</h1>
-        <p class="page-subtitle">Kelola data siswa, kewajiban iuran Rp250.000, dan status pembayaran</p>
+        <div style="font-family: var(--font-display); font-size: 0.775rem; font-weight: 700; color: var(--gold-text); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem;">
+            Data 492 Siswa &bull; SMKN 1 Panyingkiran
+        </div>
+        <h1 class="page-title">
+            Data Siswa <span class="gold-highlight">Angkatan 27</span>
+        </h1>
+        <p class="page-subtitle">Daftar anggota angkatan 16 kelas, kewajiban iuran Rp250.000, dan status realisasi cicilan</p>
     </div>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <a href="<?= View::url('/students/create') ?>" class="btn btn-primary">+ Tambah Siswa</a>
-        <a href="<?= View::url('/students/import') ?>" class="btn btn-secondary">Impor CSV / Excel</a>
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <a href="<?= View::url('/students/create') ?>" class="btn btn-secondary">+ Tambah Siswa</a>
+        <a href="<?= View::url('/students/import') ?>" class="btn btn-primary">+ IMPOR CSV/EXCEL</a>
         <a href="<?= View::url('/students/export') ?>" class="btn btn-secondary">Ekspor Data</a>
     </div>
 </div>
 
 <!-- Filter Bar -->
 <form method="GET" action="<?= View::url('/students') ?>" class="filter-bar">
-    <div style="flex: 2; min-width: 200px;">
+    <div style="flex: 2; min-width: 220px;">
         <input type="text" name="q" value="<?= View::e($search) ?>" placeholder="Cari NIS, Nama Siswa, atau Kelas..." class="form-control">
     </div>
 
@@ -32,7 +37,7 @@ use App\Helpers\View;
         <select name="payment_status" class="form-control">
             <option value="all">Semua Status Iuran</option>
             <option value="belum_bayar" <?= $paymentStatus === 'belum_bayar' ? 'selected' : '' ?>>Belum Bayar</option>
-            <option value="sebagian" <?= $paymentStatus === 'sebagian' ? 'selected' : '' ?>>Membayar Sebagian</option>
+            <option value="sebagian" <?= $paymentStatus === 'sebagian' ? 'selected' : '' ?>>Mencicil Sebagian</option>
             <option value="lunas" <?= $paymentStatus === 'lunas' ? 'selected' : '' ?>>Lunas Penuh</option>
         </select>
     </div>
@@ -45,63 +50,69 @@ use App\Helpers\View;
         </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">Filter</button>
-    <a href="<?= View::url('/students') ?>" class="btn btn-secondary">Reset</a>
+    <button type="submit" class="btn btn-primary btn-sm">Terapkan Filter</button>
+    <a href="<?= View::url('/students') ?>" class="btn btn-secondary btn-sm">Reset</a>
 </form>
 
-<!-- Tabel Data Siswa -->
-<div class="card" style="padding:0; overflow:hidden;">
+<!-- Glass Table Data Siswa -->
+<div class="card card-gold" style="padding:0; overflow:hidden;">
     <div class="table-responsive">
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>No. Siswa (NIS)</th>
-                    <th>Nama Lengkap</th>
-                    <th>Kelas</th>
-                    <th class="text-right">Kewajiban</th>
-                    <th class="text-right">Terbayar Sah</th>
-                    <th class="text-right">Sisa Tagihan</th>
-                    <th class="text-center">Status Iuran</th>
-                    <th class="text-center">Status Siswa</th>
-                    <th class="text-center">Aksi</th>
+                    <th style="padding-left: 1.5rem;">NIS</th>
+                    <th>NAMA LENGKAP SISWA</th>
+                    <th>KELAS</th>
+                    <th class="text-right">TERBAYAR</th>
+                    <th class="text-right">SISA</th>
+                    <th class="text-center">STATUS IURAN</th>
+                    <th class="text-center" style="padding-right: 1.5rem;">AKSI</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($students)): ?>
                     <tr>
-                        <td colspan="9" class="text-center" style="padding: 2.5rem; color: var(--text-muted);">
-                            Tidak ada data siswa yang sesuai dengan filter pencarian.
+                        <td colspan="7" class="text-center" style="padding: 3rem 1rem; color: var(--text-muted);">
+                            Tidak ada data siswa yang cocok dengan kriteria pencarian.
                         </td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($students as $s): ?>
                         <tr>
-                            <td>
-                                <a href="<?= View::url('/students/' . $s['id']) ?>" style="font-weight: 600;">
+                            <td class="tabular-nums" style="padding-left: 1.5rem; font-weight: 700; color: var(--gold-solid);">
+                                <a href="<?= View::url('/students/' . $s['id']) ?>">
                                     <?= View::e($s['student_number']) ?>
                                 </a>
                             </td>
                             <td>
-                                <a href="<?= View::url('/students/' . $s['id']) ?>" style="font-weight: 600; color:var(--text-primary);">
+                                <a href="<?= View::url('/students/' . $s['id']) ?>" style="font-weight: 700; color: #FFF;">
                                     <?= View::e($s['full_name']) ?>
                                 </a>
                                 <?php if (!empty($s['phone'])): ?>
-                                    <div style="font-size:0.75rem; color:var(--text-muted);"><?= View::e($s['phone']) ?></div>
+                                    <div class="tabular-nums" style="font-size:0.75rem; color:var(--text-muted);"><?= View::e($s['phone']) ?></div>
                                 <?php endif; ?>
                             </td>
-                            <td><?= View::e($s['class_name']) ?></td>
-                            <td class="text-right"><?= View::formatRupiah($s['total_obligation']) ?></td>
-                            <td class="text-right" style="font-weight: 600; color: var(--success-text);">
+                            <td>
+                                <span class="badge badge-neutral"><?= View::e($s['class_name']) ?></span>
+                            </td>
+                            <td class="text-right tabular-nums" style="font-weight: 700; color: var(--verified-fg);">
                                 <?= View::formatRupiah($s['total_paid']) ?>
                             </td>
-                            <td class="text-right" style="font-weight: 600; color: <?= (float)$s['remaining_balance'] > 0 ? 'var(--danger-text)' : 'var(--text-muted)' ?>;">
-                                <?= View::formatRupiah($s['remaining_balance']) ?>
+                            <td class="text-right tabular-nums" style="font-weight: 700; color: <?= (float)$s['remaining_balance'] > 0 ? 'var(--void-fg)' : 'var(--verified-fg)' ?>;">
+                                <?= (float)$s['remaining_balance'] > 0 ? View::formatRupiah($s['remaining_balance']) : 'Rp 0 [Lunas]' ?>
                             </td>
-                            <td class="text-center"><?= View::statusBadge($s['payment_status']) ?></td>
-                            <td class="text-center"><?= View::statusBadge($s['status']) ?></td>
-                            <td class="text-center" style="white-space: nowrap;">
+                            <td class="text-center">
+                                <?php if ($s['payment_status'] === 'lunas'): ?>
+                                    <span class="status-pill status-verified">LUNAS</span>
+                                <?php elseif ($s['payment_status'] === 'sebagian'): ?>
+                                    <span class="status-pill status-pending">SEBAGIAN</span>
+                                <?php else: ?>
+                                    <span class="status-pill status-void">BELUM BAYAR</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-center" style="padding-right: 1.5rem; white-space: nowrap;">
                                 <a href="<?= View::url('/students/' . $s['id']) ?>" class="btn btn-secondary btn-sm" title="Lihat Profil">Detail</a>
-                                <a href="<?= View::url('/payments/create?student_id=' . $s['id']) ?>" class="btn btn-primary btn-sm" title="Bayar">+ Bayar</a>
+                                <a href="<?= View::url('/payments/create?student_id=' . $s['id']) ?>" class="btn btn-primary btn-sm" title="Catat Pembayaran">+ Bayar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
