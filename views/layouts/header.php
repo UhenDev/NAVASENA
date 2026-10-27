@@ -1,0 +1,103 @@
+<?php
+use App\Helpers\Auth;
+use App\Helpers\Flash;
+use App\Helpers\View;
+
+$activeNav = $activeNav ?? 'dashboard';
+$user = Auth::user();
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= View::e($pageTitle ?? 'NAVASENA MANAGEMENT') ?> — Sistem Informasi Keuangan Angkatan</title>
+    <link rel="stylesheet" href="<?= View::url('/assets/css/main.css') ?>">
+    <link rel="stylesheet" href="<?= View::url('/assets/css/print.css') ?>" media="print">
+</head>
+<body>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo-icon">N</div>
+            <div class="brand-text">
+                <h1>NAVASENA</h1>
+                <p>Keuangan Angkatan</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu Utama</div>
+            <a href="<?= View::url('/dashboard') ?>" class="nav-item <?= $activeNav === 'dashboard' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="<?= View::url('/students') ?>" class="nav-item <?= $activeNav === 'students' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Data Siswa</span>
+            </a>
+
+            <a href="<?= View::url('/payments') ?>" class="nav-item <?= $activeNav === 'payments' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                <span>Pembayaran</span>
+                <?php if (isset($pendingCount) && $pendingCount > 0): ?>
+                    <span class="nav-badge"><?= (int)$pendingCount ?></span>
+                <?php endif; ?>
+            </a>
+
+            <a href="<?= View::url('/cash') ?>" class="nav-item <?= $activeNav === 'cash' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>Buku Kas</span>
+            </a>
+
+            <div class="nav-section-title">Laporan & Audit</div>
+            <a href="<?= View::url('/reports') ?>" class="nav-item <?= $activeNav === 'reports' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>Laporan Keuangan</span>
+            </a>
+
+            <?php if (Auth::isKetua()): ?>
+            <div class="nav-section-title">Manajemen & Sistem</div>
+            <a href="<?= View::url('/settings') ?>" class="nav-item <?= $activeNav === 'settings' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Pengaturan Iuran</span>
+            </a>
+
+            <a href="<?= View::url('/users') ?>" class="nav-item <?= $activeNav === 'users' ? 'active' : '' ?>">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Akun & Hak Akses</span>
+            </a>
+            <?php endif; ?>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-info-brief">
+                <div class="user-name"><?= View::e($user['full_name'] ?? 'Pengguna') ?></div>
+                <div class="user-role-tag"><?= View::e(strtoupper($user['role'] ?? '')) ?></div>
+            </div>
+            <a href="<?= View::url('/logout') ?>" title="Keluar" class="btn btn-secondary btn-sm" style="padding: 0.25rem 0.5rem; background: rgba(255,255,255,0.1); border: none; color: #fff;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="app-main">
+        <header class="app-topbar">
+            <div class="topbar-left">
+                <button type="button" class="menu-toggle-btn" id="menuToggleBtn" aria-label="Buka Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="topbar-title"><?= View::e($pageTitle ?? 'NAVASENA MANAGEMENT') ?></div>
+            </div>
+            <div class="topbar-right">
+                <a href="<?= View::url('/change-password') ?>" class="btn btn-secondary btn-sm">Ganti Password</a>
+                <a href="<?= View::url('/logout') ?>" class="btn btn-secondary btn-sm" onclick="return confirm('Apakah Anda yakin ingin keluar?')">Keluar</a>
+            </div>
+        </header>
+
+        <main class="app-content">
+            <?= Flash::render() ?>

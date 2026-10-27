@@ -1,0 +1,17 @@
+# Environment & Sensitive configs (if any)
+.env
+
+# Logs & Storage caches
+storage/logs/*.log
+!storage/logs/.gitkeep
+storage/exports/*
+!storage/exports/.gitkeep
+test_cookie.txt
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.bak

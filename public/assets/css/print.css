@@ -1,0 +1,141 @@
+/**
+ * NAVASENA MANAGEMENT — Print Stylesheet
+ * Optimized for official school reports, receipts, and formal audit accountability
+ */
+
+@media print {
+    /* Hide all application navigation chrome */
+    .app-sidebar,
+    .app-topbar,
+    .menu-toggle-btn,
+    .btn,
+    .filter-bar,
+    .no-print,
+    .modal-overlay,
+    .alert {
+        display: none !important;
+    }
+
+    body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .app-layout {
+        display: block !important;
+    }
+
+    .app-main {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .app-content {
+        padding: 0 !important;
+    }
+
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Print Header */
+    .print-header {
+        text-align: center;
+        border-bottom: 2px solid #000000;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+    }
+
+    .print-header h1 {
+        font-size: 16pt;
+        text-transform: uppercase;
+        margin: 0 0 4px 0;
+        color: #000000;
+    }
+
+    .print-header h2 {
+        font-size: 13pt;
+        margin: 0 0 4px 0;
+        color: #333333;
+    }
+
+    .print-header p {
+        font-size: 9.5pt;
+        margin: 0;
+        color: #555555;
+    }
+
+    /* Table styles for print */
+    .data-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 9.5pt !important;
+        margin-top: 10px !important;
+    }
+
+    .data-table th,
+    .data-table td {
+        border: 1px solid #333333 !important;
+        padding: 6px 8px !important;
+        color: #000000 !important;
+    }
+
+    .data-table th {
+        background-color: #F1F5F9 !important;
+        font-weight: bold !important;
+        text-transform: uppercase;
+    }
+
+    .data-table tr {
+        page-break-inside: avoid !important;
+    }
+
+    /* Signatures Section */
+    .print-signatures {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 40px !important;
+        page-break-inside: avoid !important;
+    }
+
+    .signature-block {
+        text-align: center !important;
+        width: 200px !important;
+    }
+
+    .signature-space {
+        height: 65px !important;
+    }
+
+    .signature-name {
+        font-weight: bold !important;
+        text-decoration: underline !important;
+        margin-bottom: 2px !important;
+    }
+
+    .signature-role {
+        font-size: 9pt !important;
+        color: #333333 !important;
+    }
+
+    /* Official Receipt Box (Kuitansi Resmi) */
+    .receipt-container {
+        border: 2px solid #000000 !important;
+        padding: 24px !important;
+        margin: 20px auto !important;
+        max-width: 720px !important;
+        page-break-inside: avoid !important;
+    }
+
+    a {
+        text-decoration: none !important;
+        color: #000000 !important;
+    }
+}
