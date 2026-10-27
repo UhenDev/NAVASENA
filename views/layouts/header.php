@@ -12,6 +12,9 @@ $user = Auth::user();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= View::e($pageTitle ?? 'NAVASENA MANAGEMENT') ?> — GUARDIAN OF NAVASENA 27</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="<?= View::url('/assets/img/logo.png') ?>">
     <link rel="stylesheet" href="<?= View::url('/assets/css/main.css') ?>">
     <link rel="stylesheet" href="<?= View::url('/assets/css/print.css') ?>" media="print">
@@ -82,7 +85,10 @@ $user = Auth::user();
                 <img src="<?= View::url('/assets/img/logo.png') ?>" alt="Mini Crest" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <div class="badge-title">GUARDIAN OF NAVASENA</div>
-            <div class="badge-sub">SMKN 1 Panyingkiran &bull; TA 2026/2027</div>
+            <div class="badge-sub">SMKN 1 Panyingkiran</div>
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; color: var(--verified-fg); margin-top: 0.25rem; letter-spacing: 0.05em;">
+                TA 2026/2027 &bull; 44/44 PASS
+            </div>
         </div>
 
         <div class="sidebar-user">

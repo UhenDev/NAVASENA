@@ -50,43 +50,41 @@ use App\Helpers\View;
 </div>
 
 <!-- Filter Bar -->
-<div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-    <form method="GET" action="<?= View::url('/cash') ?>" class="filter-bar" style="margin: 0; gap: 1rem; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 150px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Jenis Kas</label>
-            <select name="type" class="form-control">
-                <option value="all">Semua Jenis Kas</option>
-                <option value="masuk" <?= $type === 'masuk' ? 'selected' : '' ?>>Kas Masuk (+)</option>
-                <option value="keluar" <?= $type === 'keluar' ? 'selected' : '' ?>>Kas Keluar (-)</option>
-            </select>
-        </div>
+<form method="GET" action="<?= View::url('/cash') ?>" class="filter-bar">
+    <div style="flex: 1; min-width: 150px;">
+        <label>Jenis Kas</label>
+        <select name="type" class="form-control">
+            <option value="all">Semua Jenis Kas</option>
+            <option value="masuk" <?= $type === 'masuk' ? 'selected' : '' ?>>Kas Masuk (+)</option>
+            <option value="keluar" <?= $type === 'keluar' ? 'selected' : '' ?>>Kas Keluar (-)</option>
+        </select>
+    </div>
 
-        <div style="flex: 1.5; min-width: 180px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Kategori Beban / Kas</label>
-            <select name="category" class="form-control">
-                <option value="all">Semua Kategori</option>
-                <?php foreach ($categories as $cat): ?>
-                    <option value="<?= View::e($cat) ?>" <?= $category === $cat ? 'selected' : '' ?>><?= View::e($cat) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+    <div style="flex: 1.5; min-width: 180px;">
+        <label>Kategori Beban / Kas</label>
+        <select name="category" class="form-control">
+            <option value="all">Semua Kategori</option>
+            <?php foreach ($categories as $cat): ?>
+                <option value="<?= View::e($cat) ?>" <?= $category === $cat ? 'selected' : '' ?>><?= View::e($cat) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
-        <div style="flex: 1; min-width: 130px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Dari Tanggal</label>
-            <input type="date" name="start_date" value="<?= View::e($startDate) ?>" class="form-control">
-        </div>
+    <div style="flex: 1; min-width: 130px;">
+        <label>Dari Tanggal</label>
+        <input type="date" name="start_date" value="<?= View::e($startDate) ?>" class="form-control">
+    </div>
 
-        <div style="flex: 1; min-width: 130px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Sampai Tanggal</label>
-            <input type="date" name="end_date" value="<?= View::e($endDate) ?>" class="form-control">
-        </div>
+    <div style="flex: 1; min-width: 130px;">
+        <label>Sampai Tanggal</label>
+        <input type="date" name="end_date" value="<?= View::e($endDate) ?>" class="form-control">
+    </div>
 
-        <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
-            <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1.25rem;">Filter</button>
-            <a href="<?= View::url('/cash') ?>" class="btn btn-secondary" style="padding: 0.65rem 1rem;">Reset</a>
-        </div>
-    </form>
-</div>
+    <div style="display: flex; gap: 0.5rem;">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="<?= View::url('/cash') ?>" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
 
 <!-- Tabel Buku Kas -->
 <div class="card" style="padding: 0; overflow: hidden; border-color: var(--glass-border);">

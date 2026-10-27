@@ -236,10 +236,11 @@ a:hover {
 }
 
 .nav-item.active {
-  background: rgba(223, 178, 86, 0.12);
-  color: var(--gold-solid);
-  border-color: var(--glass-border-gold);
-  box-shadow: 0 4px 15px rgba(223, 178, 86, 0.15);
+  background: var(--gold-gradient);
+  color: #070A12 !important;
+  font-weight: 800;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(223, 178, 86, 0.35);
 }
 
 .nav-icon {
@@ -251,7 +252,7 @@ a:hover {
 
 .nav-item.active .nav-icon {
   opacity: 1;
-  stroke: var(--gold-solid);
+  stroke: #070A12 !important;
 }
 
 .nav-badge {
@@ -603,6 +604,18 @@ a:hover {
   background: rgba(239, 68, 68, 0.28);
 }
 
+.btn-success {
+  background: rgba(16, 185, 129, 0.16);
+  color: var(--verified-fg) !important;
+  border: 1px solid var(--verified-border);
+}
+
+.btn-success:hover {
+  background: rgba(16, 185, 129, 0.28);
+  border-color: var(--verified-fg);
+  color: #FFFFFF !important;
+}
+
 .btn-sm {
   padding: 0.4rem 0.75rem;
   font-size: 0.775rem;
@@ -612,6 +625,11 @@ a:hover {
   padding: 0.85rem 1.75rem;
   font-size: 1rem;
 }
+
+/* Text Alignment Utilities */
+.text-left { text-align: left !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
 
 /* Status Badges & Pills */
 .badge, .status-pill {
@@ -685,15 +703,15 @@ a:hover {
 }
 
 .data-table thead th {
-  background: rgba(12, 19, 34, 0.9);
+  background: #0B101D;
   color: var(--gold-text);
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.9rem 1rem;
-  border-bottom: 1px solid var(--glass-border-gold);
+  padding: 0.95rem 1rem;
+  border-bottom: 2px solid var(--glass-border-gold);
   white-space: nowrap;
   position: sticky;
   top: 0;
@@ -704,13 +722,17 @@ a:hover {
   transition: background 0.15s ease;
 }
 
-.data-table tbody tr:hover {
-  background: var(--glass-hover);
+.data-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.data-table tbody tr:hover td {
+  background: rgba(223, 178, 86, 0.07);
 }
 
 .data-table tbody td {
   padding: 0.9rem 1rem;
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   font-size: 0.875rem;
   color: var(--text-secondary);
   vertical-align: middle;
@@ -860,18 +882,64 @@ select.form-control option {
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
+/* Form Currency Input Utility */
+.input-rupiah {
+  font-family: var(--font-mono) !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
 /* Filter Bar */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--glass-bg);
+  gap: 0.85rem;
+  padding: 1.15rem 1.35rem;
+  background: rgba(11, 16, 29, 0.75);
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   margin-bottom: 1.5rem;
+  align-items: flex-end;
+}
+
+.card > .filter-bar {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.filter-bar .form-group {
+  margin-bottom: 0;
+}
+
+.filter-bar label {
+  display: block;
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.filter-bar .form-control {
+  height: 42px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.875rem;
+}
+
+.filter-bar .btn {
+  height: 42px;
+  padding: 0 1.25rem;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
 }
 
 /* Alerts */
@@ -1262,6 +1330,194 @@ select.form-control option {
   border-color: transparent;
 }
 
+@media (min-width: 769px) {
+  #glassKeypadGrid {
+    display: none;
+  }
+}
+
+/* Executive Official Receipt Layout (Screen Presentation) */
+.screen-receipt-wrapper {
+  max-width: 820px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.screen-receipt-card {
+  background: rgba(11, 16, 29, 0.92);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-gold);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), var(--gold-glow);
+  padding: 2.75rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen-receipt-card::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: url('../img/logo.png') center center no-repeat;
+  background-size: contain;
+  opacity: 0.045;
+  pointer-events: none;
+}
+
+.receipt-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.95rem;
+  font-size: 0.925rem;
+  line-height: 1.6;
+}
+
+.receipt-col-label {
+  width: 185px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.receipt-col-dots {
+  width: 24px;
+  flex-shrink: 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.receipt-col-val {
+  flex: 1;
+  color: var(--text-primary);
+  min-width: 0;
+}
+
+.terbilang-box {
+  background: rgba(223, 178, 86, 0.08);
+  border: 1px dashed var(--glass-border-gold);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  color: var(--gold-text);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.print-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2.75rem;
+  padding-top: 1rem;
+}
+
+.signature-box, .sig-box {
+  width: 220px;
+  text-align: center;
+}
+
+.signature-title {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  margin-bottom: 3.75rem;
+}
+
+.signature-name {
+  font-weight: 800;
+  color: #FFFFFF;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.signature-nip {
+  font-size: 0.75rem;
+  color: var(--gold-solid);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+.print-audit-footer {
+  margin-top: 2rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+/* Student Portal Navigation Bar & Shell */
+.portal-header-bar {
+  background: rgba(7, 10, 18, 0.85);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border-gold);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.portal-brand-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.portal-crest-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(223, 178, 86, 0.35));
+}
+
+.portal-container-shell {
+  max-width: 1080px;
+  margin: 2rem auto;
+  padding: 0 1.25rem 6rem 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Error State Cards (403, 404, 500) */
+.error-card {
+  max-width: 500px;
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 3rem 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border-gold);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  text-align: center;
+}
+
+.error-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gold-gradient);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
 /* Mobile Media Queries */
 @media (max-width: 768px) {
   body {
@@ -1305,6 +1561,15 @@ select.form-control option {
     padding: 0 1rem;
   }
 
+  .topbar-right .status-pill,
+  .topbar-right .btn-secondary {
+    display: none;
+  }
+
+  .topbar-engine-tag {
+    display: none;
+  }
+
   .app-content {
     padding: 1.25rem 1rem;
   }
@@ -1320,5 +1585,32 @@ select.form-control option {
   .page-header {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .screen-receipt-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .portal-header-bar {
+    padding: 0.85rem 1rem;
+  }
+
+  .portal-header-bar .btn-secondary {
+    display: none;
+  }
+
+  .receipt-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .receipt-col-dots {
+    display: none;
+  }
+
+  .receipt-col-label {
+    width: 100%;
+    font-size: 0.775rem;
+    text-transform: uppercase;
   }
 }

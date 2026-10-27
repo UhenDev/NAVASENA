@@ -19,29 +19,27 @@ use App\Helpers\View;
 </div>
 
 <!-- Filter Bar -->
-<div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-    <form method="GET" action="<?= View::url('/users') ?>" class="filter-bar" style="margin: 0; gap: 1rem; flex-wrap: wrap;">
-        <div style="flex: 2; min-width: 200px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Cari Pengguna</label>
-            <input type="text" name="q" value="<?= View::e($search) ?>" placeholder="Cari Username atau Nama Lengkap..." class="form-control">
-        </div>
+<form method="GET" action="<?= View::url('/users') ?>" class="filter-bar">
+    <div style="flex: 2; min-width: 200px;">
+        <label>Cari Pengguna</label>
+        <input type="text" name="q" value="<?= View::e($search) ?>" placeholder="Cari Username atau Nama Lengkap..." class="form-control">
+    </div>
 
-        <div style="flex: 1.2; min-width: 180px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Role Hak Akses</label>
-            <select name="role" class="form-control">
-                <option value="all">Semua Role Pengguna</option>
-                <option value="ketua" <?= $role === 'ketua' ? 'selected' : '' ?>>Ketua Angkatan</option>
-                <option value="bendahara" <?= $role === 'bendahara' ? 'selected' : '' ?>>Bendahara</option>
-                <option value="siswa" <?= $role === 'siswa' ? 'selected' : '' ?>>Siswa (Portal Mandiri)</option>
-            </select>
-        </div>
+    <div style="flex: 1.2; min-width: 180px;">
+        <label>Role Hak Akses</label>
+        <select name="role" class="form-control">
+            <option value="all">Semua Role Pengguna</option>
+            <option value="ketua" <?= $role === 'ketua' ? 'selected' : '' ?>>Ketua Angkatan</option>
+            <option value="bendahara" <?= $role === 'bendahara' ? 'selected' : '' ?>>Bendahara</option>
+            <option value="siswa" <?= $role === 'siswa' ? 'selected' : '' ?>>Siswa (Portal Mandiri)</option>
+        </select>
+    </div>
 
-        <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a href="<?= View::url('/users') ?>" class="btn btn-secondary">Reset</a>
-        </div>
-    </form>
-</div>
+    <div style="display: flex; gap: 0.5rem;">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="<?= View::url('/users') ?>" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
 
 <!-- Tabel Pengguna -->
 <div class="card" style="padding: 0; overflow: hidden; border-color: var(--glass-border);">

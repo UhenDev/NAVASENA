@@ -92,13 +92,13 @@ use App\Helpers\View;
                                     <div class="tabular-nums" style="font-size:0.75rem; color:var(--text-muted);"><?= View::e($s['phone']) ?></div>
                                 <?php endif; ?>
                             </td>
-                            <td>
-                                <span class="badge badge-neutral"><?= View::e($s['class_name']) ?></span>
+                            <td style="font-family: var(--font-mono); font-weight: 600; color: #38BDF8; font-size: 0.85rem;">
+                                <?= View::e($s['class_name']) ?>
                             </td>
-                            <td class="text-right tabular-nums" style="font-weight: 700; color: var(--verified-fg);">
+                            <td class="text-right tabular-nums" style="font-family: var(--font-mono); font-weight: 700; color: var(--verified-fg);">
                                 <?= View::formatRupiah($s['total_paid']) ?>
                             </td>
-                            <td class="text-right tabular-nums" style="font-weight: 700; color: <?= (float)$s['remaining_balance'] > 0 ? 'var(--void-fg)' : 'var(--verified-fg)' ?>;">
+                            <td class="text-right tabular-nums" style="font-family: var(--font-mono); font-weight: 700; color: <?= (float)$s['remaining_balance'] > 0 ? 'var(--gold-solid)' : 'var(--verified-fg)' ?>;">
                                 <?= (float)$s['remaining_balance'] > 0 ? View::formatRupiah($s['remaining_balance']) : 'Rp 0 [Lunas]' ?>
                             </td>
                             <td class="text-center">

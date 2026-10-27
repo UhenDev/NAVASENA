@@ -77,7 +77,7 @@ use App\Helpers\View;
             <div class="stage-card" style="border-color: <?= $isLunas ? 'var(--verified-border)' : ($isSebagian ? 'var(--pending-border)' : 'var(--glass-border)') ?>;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <div class="stage-badge-number"><?= $idx ?></div>
+                        <div class="stage-badge-number"><?= (int)$stg['stage_number'] ?></div>
                         <div>
                             <div style="font-weight: 700; color: #FFF; font-size: 1rem;"><?= View::e($stg['stage_name']) ?></div>
                             <div class="tabular-nums" style="font-weight: 800; font-size: 1.15rem; color: var(--gold-solid); margin-top: 2px;">

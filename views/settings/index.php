@@ -21,11 +21,18 @@ use App\Helpers\View;
         <!-- 3 Stacked Glass Configuration Cards -->
         <div class="card card-gold">
             <div class="card-header">
-                <div>
-                    <h2 class="card-title">Jadwal &amp; Nominal 3 Tahap Cicilan</h2>
-                    <p style="font-size:0.775rem; color:var(--text-muted); margin-top:2px;">
-                        Total Kewajiban per Siswa: <strong style="color:var(--gold-solid);">Rp250.000</strong> (Album Rp200.000 + Graduation Rp50.000)
-                    </p>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: rgba(223, 178, 86, 0.12); border: 1px solid var(--glass-border-gold);">
+                        <img src="<?= View::url('/assets/img/logo.png') ?>" alt="Logo" style="width: 20px; height: 20px; object-fit: contain;">
+                    </div>
+                    <div>
+                        <h2 class="card-title" style="margin: 0; font-family: var(--font-display); font-size: 1.1rem; color: #FFFFFF;">
+                            Pengaturan Iuran &amp; Jadwal 3 Tahap
+                        </h2>
+                        <p style="font-size: 0.775rem; color: var(--text-muted); margin-top: 2px;">
+                            Kewajiban Rp250.000 (Album Rp200rb + Graduation Rp50rb)
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -38,11 +45,19 @@ use App\Helpers\View;
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.65rem;">
                             <div style="display: flex; align-items: center; gap: 0.65rem;">
                                 <div class="stage-badge-number"><?= (int)$stg['stage_number'] ?></div>
-                                <div style="font-weight: 800; color: #FFF; font-size: 1.05rem;">
-                                    Tahap <?= (int)$stg['stage_number'] ?> &mdash; <?= View::e($stg['stage_name']) ?>
+                                <div>
+                                    <div style="font-weight: 800; color: #FFF; font-size: 1.05rem;">
+                                        Tahap <?= (int)$stg['stage_number'] ?> &mdash; <?= View::e($stg['stage_name']) ?>
+                                    </div>
+                                    <div style="font-size: 0.725rem; color: var(--text-muted); font-family: var(--font-mono);">
+                                        Jatuh Tempo: <?= View::formatDate($stg['due_date']) ?>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; color: var(--gold-solid);">
+                                    <?= View::formatRupiah($stg['target_amount']) ?>
+                                </div>
                                 <?php if ($isTahap1): ?>
                                     <span class="status-pill status-verified" style="font-size:0.7rem;">AKTIF / TETAP</span>
                                 <?php else: ?>

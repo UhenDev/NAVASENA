@@ -21,34 +21,32 @@ use App\Helpers\View;
 </div>
 
 <!-- Filter Bar -->
-<div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-    <form method="GET" action="<?= View::url('/reports/students') ?>" class="filter-bar" style="margin: 0; gap: 1rem; flex-wrap: wrap;">
-        <div style="flex: 1.5; min-width: 180px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Status Pembayaran</label>
-            <select name="status" class="form-control">
-                <option value="all">Semua Status Iuran</option>
-                <option value="belum_bayar" <?= $paymentStatus === 'belum_bayar' ? 'selected' : '' ?>>Belum Bayar</option>
-                <option value="sebagian" <?= $paymentStatus === 'sebagian' ? 'selected' : '' ?>>Membayar Sebagian</option>
-                <option value="lunas" <?= $paymentStatus === 'lunas' ? 'selected' : '' ?>>Lunas Penuh</option>
-            </select>
-        </div>
+<form method="GET" action="<?= View::url('/reports/students') ?>" class="filter-bar">
+    <div style="flex: 1.5; min-width: 180px;">
+        <label>Status Pembayaran</label>
+        <select name="status" class="form-control">
+            <option value="all">Semua Status Iuran</option>
+            <option value="belum_bayar" <?= $paymentStatus === 'belum_bayar' ? 'selected' : '' ?>>Belum Bayar</option>
+            <option value="sebagian" <?= $paymentStatus === 'sebagian' ? 'selected' : '' ?>>Membayar Sebagian</option>
+            <option value="lunas" <?= $paymentStatus === 'lunas' ? 'selected' : '' ?>>Lunas Penuh</option>
+        </select>
+    </div>
 
-        <div style="flex: 1.5; min-width: 180px;">
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase;">Rombel / Kelas</label>
-            <select name="class" class="form-control">
-                <option value="all">Semua Kelas</option>
-                <?php foreach ($classes as $c): ?>
-                    <option value="<?= View::e($c) ?>" <?= $className === $c ? 'selected' : '' ?>><?= View::e($c) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+    <div style="flex: 1.5; min-width: 180px;">
+        <label>Rombel / Kelas</label>
+        <select name="class" class="form-control">
+            <option value="all">Semua Kelas</option>
+            <?php foreach ($classes as $c): ?>
+                <option value="<?= View::e($c) ?>" <?= $className === $c ? 'selected' : '' ?>><?= View::e($c) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
-        <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
-            <button type="submit" class="btn btn-primary">Terapkan Filter</button>
-            <a href="<?= View::url('/reports/students') ?>" class="btn btn-secondary">Reset</a>
-        </div>
-    </form>
-</div>
+    <div style="display: flex; gap: 0.5rem;">
+        <button type="submit" class="btn btn-primary">Terapkan Filter</button>
+        <a href="<?= View::url('/reports/students') ?>" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
 
 <!-- Tabel Siswa -->
 <div class="card" style="padding: 0; overflow: hidden; border-color: var(--glass-border);">
