@@ -13,10 +13,44 @@ use App\Helpers\View;
         <h1 class="page-title" style="font-family: var(--font-display); letter-spacing: 0.02em;">Impor Data Siswa (Excel / CSV)</h1>
         <p class="page-subtitle">Unggah data angkatan via CSV UTF-8 dengan deteksi anti-duplikasi dan pembuatan akun portal otomatis</p>
     </div>
-    <a href="<?= View::url('/students') ?>" class="btn btn-secondary">&larr; Kembali ke Data Siswa</a>
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <a href="<?= View::url('/students/template-excel') ?>" class="btn btn-primary" style="box-shadow: 0 4px 18px rgba(223, 178, 86, 0.35);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh Template Excel (.xlsx)
+        </a>
+        <a href="<?= View::url('/students/template-csv') ?>" class="btn btn-secondary">
+            Unduh Template CSV (.csv)
+        </a>
+        <a href="<?= View::url('/students') ?>" class="btn btn-secondary">&larr; Kembali</a>
+    </div>
 </div>
 
-<div style="max-width: 820px; margin: 0 auto;">
+<div style="max-width: 840px; margin: 0 auto;">
+    <!-- Download Template Banner -->
+    <div class="card card-gold" style="margin-bottom: 1.75rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(15, 22, 38, 0.95) 0%, rgba(26, 35, 58, 0.9) 100%);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; color: var(--gold-text); letter-spacing: 0.1em; text-transform: uppercase;">
+                    Format Baku Import Siswa
+                </div>
+                <h3 style="font-family: var(--font-display); font-size: 1.1rem; color: #FFFFFF; margin: 0.25rem 0;">
+                    Unduh Berkas Template Excel / CSV
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
+                    Silakan unduh template di bawah, isi data siswa angkatan, lalu unggah kembali ke sistem.
+                </p>
+            </div>
+            <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+                <a href="<?= View::url('/students/template-excel') ?>" class="btn btn-primary btn-sm" style="box-shadow: 0 4px 14px rgba(223, 178, 86, 0.35);">
+                    Unduh .XLSX (Excel)
+                </a>
+                <a href="<?= View::url('/students/template-csv') ?>" class="btn btn-secondary btn-sm">
+                    Unduh .CSV (UTF-8)
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="card" style="border-color: var(--glass-border-gold); position: relative; overflow: hidden;">
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold-gradient);"></div>
 
@@ -24,9 +58,9 @@ use App\Helpers\View;
             <?= CSRF::field() ?>
 
             <div class="form-group">
-                <label class="form-label" for="csv_file">Pilih Berkas CSV Siswa <span style="color:var(--void-fg)">*</span></label>
-                <input type="file" name="csv_file" id="csv_file" class="form-control" accept=".csv, text/csv, text/plain" required style="padding: 1rem; border-style: dashed; border-color: var(--glass-border-gold); background: rgba(11, 16, 29, 0.6);">
-                <div class="form-text">Berkas wajib berekstensi .csv dengan encoding UTF-8 (maksimal 10MB). Pemisah tanda koma (,) atau titik-koma (;).</div>
+                <label class="form-label" for="csv_file">Pilih Berkas Excel (.xlsx) atau CSV (.csv) Siswa <span style="color:var(--void-fg)">*</span></label>
+                <input type="file" name="csv_file" id="csv_file" class="form-control" accept=".xlsx, .csv, text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain" required style="padding: 1rem; border-style: dashed; border-color: var(--glass-border-gold); background: rgba(11, 16, 29, 0.6);">
+                <div class="form-text">Mendukung berkas <strong>.xlsx (Microsoft Excel)</strong> atau <strong>.csv (UTF-8)</strong> maksimal 10MB.</div>
             </div>
 
             <div style="background: rgba(11, 16, 29, 0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 1.25rem; margin-bottom: 1.5rem;">

@@ -361,15 +361,15 @@ class StudentController
         CSRF::checkRequest();
 
         if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
-            Flash::setError("Silakan pilih file CSV yang valid untuk diunggah.");
+            Flash::setError("Silakan pilih file Excel (.xlsx) atau CSV (.csv) yang valid untuk diunggah.");
             Response::redirect('/students/import');
         }
 
         $file = $_FILES['csv_file'];
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        if (!in_array($ext, ['csv', 'txt'])) {
-            Flash::setError("Format file harus berupa CSV (.csv). Pastikan Anda menyimpan Excel sebagai CSV UTF-8.");
+        if (!in_array($ext, ['csv', 'txt', 'xlsx'])) {
+            Flash::setError("Format file harus berupa Excel (.xlsx) atau CSV (.csv).");
             Response::redirect('/students/import');
         }
 
@@ -381,7 +381,23 @@ class StudentController
         $createAccounts = isset($_POST['create_accounts']) && $_POST['create_accounts'] == '1';
         $updateExisting = isset($_POST['update_existing']) && $_POST['update_existing'] == '1';
 
-        $result = ImportService::importCsv($file['tmp_name'], $createAccounts, $updateExisting);
+        $importPath = $file['tmp_name'];
+        $tempCsvPath = null;
+        if ($ext === 'xlsx') {
+            $tempCsvPath = sys_get_temp_dir() . '/navasena_import_' . uniqid() . '.csv';
+            $converted = \App\Services\ExcelService::convertXlsxToCsv($importPath, $tempCsvPath);
+            if (!$converted) {
+                Flash::setError("Gagal membaca berkas Excel (.xlsx). Pastikan format berkas sesuai template.");
+                Response::redirect('/students/import');
+            }
+            $importPath = $tempCsvPath;
+        }
+
+        $result = ImportService::importCsv($importPath, $createAccounts, $updateExisting);
+
+        if ($tempCsvPath && file_exists($tempCsvPath)) {
+            @unlink($tempCsvPath);
+        }
 
         if ($result['success']) {
             Flash::setSuccess($result['message']);
@@ -395,6 +411,44 @@ class StudentController
             'activeNav' => 'students',
             'result'    => $result
         ], 'main');
+    }
+
+    public function downloadTemplateExcel(): void
+    {
+        Auth::requireRole(['ketua', 'bendahara']);
+
+        $filePath = dirname(__DIR__, 2) . '/storage/Template_Import_Siswa_Navasena.xlsx';
+        if (!file_exists($filePath)) {
+            \App\Services\ExcelService::createTemplateXlsx($filePath);
+        }
+
+        $filename = 'Template_Import_Siswa_Navasena.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        readfile($filePath);
+        exit;
+    }
+
+    public function downloadTemplateCsv(): void
+    {
+        Auth::requireRole(['ketua', 'bendahara']);
+
+        $filePath = dirname(__DIR__, 2) . '/storage/Template_Import_Siswa_Navasena.csv';
+        if (!file_exists($filePath)) {
+            \App\Services\ExcelService::createTemplateCsv($filePath);
+        }
+
+        $filename = 'Template_Import_Siswa_Navasena.csv';
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        readfile($filePath);
+        exit;
     }
 
     public function exportCsv(): void

@@ -120,6 +120,12 @@ try {
     elseif ($path === '/students/export') {
         (new StudentController())->exportCsv();
     }
+    elseif ($path === '/students/template-excel' || $path === '/students/template-import') {
+        (new StudentController())->downloadTemplateExcel();
+    }
+    elseif ($path === '/students/template-csv') {
+        (new StudentController())->downloadTemplateCsv();
+    }
     elseif (preg_match('#^/students/([0-9]+)$#', $path, $matches)) {
         (new StudentController())->show((int)$matches[1]);
     }

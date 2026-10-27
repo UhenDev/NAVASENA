@@ -13,6 +13,10 @@ use App\Helpers\View;
     </div>
     <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
         <a href="<?= View::url('/students/create') ?>" class="btn btn-secondary">+ Tambah Siswa</a>
+        <a href="<?= View::url('/students/template-excel') ?>" class="btn btn-secondary" title="Unduh Berkas Template Excel (.xlsx) untuk Impor Siswa">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Template Excel
+        </a>
         <a href="<?= View::url('/students/import') ?>" class="btn btn-primary">+ IMPOR CSV/EXCEL</a>
         <a href="<?= View::url('/students/export') ?>" class="btn btn-secondary">Ekspor Data</a>
     </div>
