@@ -418,15 +418,18 @@ class StudentController
         Auth::requireRole(['ketua', 'bendahara']);
 
         $filePath = dirname(__DIR__, 2) . '/storage/Template_Import_Siswa_Navasena.xlsx';
-        if (!file_exists($filePath)) {
-            \App\Services\ExcelService::createTemplateXlsx($filePath);
+        \App\Services\ExcelService::createTemplateXlsx($filePath);
+
+        if (ob_get_level()) {
+            ob_end_clean();
         }
 
         $filename = 'Template_Import_Siswa_Navasena.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Content-Length: ' . filesize($filePath));
-        header('Pragma: no-cache');
+        header('Cache-Control: max-age=0, no-cache, no-store, must-revalidate');
+        header('Pragma: public');
         header('Expires: 0');
         readfile($filePath);
         exit;
@@ -437,15 +440,18 @@ class StudentController
         Auth::requireRole(['ketua', 'bendahara']);
 
         $filePath = dirname(__DIR__, 2) . '/storage/Template_Import_Siswa_Navasena.csv';
-        if (!file_exists($filePath)) {
-            \App\Services\ExcelService::createTemplateCsv($filePath);
+        \App\Services\ExcelService::createTemplateCsv($filePath);
+
+        if (ob_get_level()) {
+            ob_end_clean();
         }
 
         $filename = 'Template_Import_Siswa_Navasena.csv';
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Content-Length: ' . filesize($filePath));
-        header('Pragma: no-cache');
+        header('Cache-Control: max-age=0, no-cache, no-store, must-revalidate');
+        header('Pragma: public');
         header('Expires: 0');
         readfile($filePath);
         exit;
