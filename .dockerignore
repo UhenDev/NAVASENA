@@ -1,0 +1,10 @@
+.git
+.gitignore
+.github
+node_modules
+scripts/test_*.php
+scripts/process_*.py
+scripts/install_*.py
+storage/logs/*.log
+*.md
+!README.md
