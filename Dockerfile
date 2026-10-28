@@ -1,13 +1,15 @@
 # ==============================================================================
 # DOCKERFILE - NAVASENA MANAGEMENT
-# Optimized for Dokploy / Docker Production Deployment
-# PHP 8.2 with Apache, MySQL PDO, GD (with FreeType & JPEG), Zip, Opcache
+# Optimized for Dokploy / Docker Single-Container Self-Contained Deployment
+# PHP 8.2 with Apache, MariaDB Server (Built-in), MySQL PDO, GD, Zip, Opcache
 # ==============================================================================
 
 FROM php:8.2-apache
 
-# 1. Install system dependencies
+# 1. Install system dependencies & MariaDB Server/Client
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    mariadb-server \
+    mariadb-client \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -52,8 +54,10 @@ WORKDIR /var/www/html
 # 5. Copy Application Source Code
 COPY . /var/www/html/
 
-# 6. Ensure Storage Permissions & Entrypoint Execution
-RUN mkdir -p /var/www/html/storage/logs /var/www/html/storage/exports \
+# 6. Ensure Storage & MariaDB Permissions
+RUN mkdir -p /var/lib/mysql /var/run/mysqld /var/www/html/storage/logs /var/www/html/storage/exports \
+    && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
+    && chmod -R 755 /var/lib/mysql /var/run/mysqld \
     && chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 775 /var/www/html/storage \
     && chmod +x /var/www/html/docker-entrypoint.sh
