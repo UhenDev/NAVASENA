@@ -56,12 +56,6 @@ use App\Helpers\View;
                 </ul>
             </div>
         </div>
-
-        <div class="login-footer-info">
-            <div style="font-weight: 700; color: var(--text-secondary); margin-bottom: 0.15rem;">Akses Resmi Pengurus &amp; Siswa</div>
-            <div>Ketua: <code>uhen</code> &bull; Bendahara: <code>bendahara</code></div>
-            <div>Siswa login menggunakan <strong>NIS</strong> masing-masing (Password: <code>password</code>)</div>
-        </div>
     </div>
 </div>
 
