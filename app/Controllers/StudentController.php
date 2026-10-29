@@ -360,6 +360,10 @@ class StudentController
         Auth::requireRole(['ketua', 'bendahara']);
         CSRF::checkRequest();
 
+        // Alokasikan batas waktu hingga 5 menit untuk impor batch
+        @ini_set('max_execution_time', '300');
+        @set_time_limit(300);
+
         if (!isset($_FILES['csv_file']) || $_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
             Flash::setError("Silakan pilih file Excel (.xlsx) atau CSV (.csv) yang valid untuk diunggah.");
             Response::redirect('/students/import');

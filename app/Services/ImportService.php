@@ -18,6 +18,10 @@ class ImportService
      */
     public static function importCsv(string $filePath, bool $createAccounts = true, bool $updateExisting = false): array
     {
+        // Alokasikan waktu eksekusi yang cukup untuk impor dataset besar
+        @ini_set('max_execution_time', '300');
+        @set_time_limit(300);
+
         if (!file_exists($filePath) || !is_readable($filePath)) {
             return [
                 'success'  => false,
@@ -132,6 +136,12 @@ class ImportService
                 ON DUPLICATE KEY UPDATE student_id = VALUES(student_id), full_name = VALUES(full_name)
             ");
 
+            // Optimasi Kecepatan Eksekusi Ekstrem:
+            // Bcrypt hashing butuh ~100ms per panggilan. Untuk 492 baris, menghitung di dalam loop
+            // membutuhkan ~50 detik dan menyebabkan fatal error max_execution_time 30 detik!
+            // Karena password default semua akun siswa baru seragam ('password'), hitung 1x di luar loop.
+            $defaultPasswordHash = $createAccounts ? password_hash('password', PASSWORD_BCRYPT) : '';
+
             while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
                 $rowNumber++;
 
@@ -217,10 +227,9 @@ class ImportService
 
                 // Buat akun login siswa jika diaktifkan (default: username = NIS, password = password)
                 if ($createAccounts) {
-                    $passwordHash = password_hash('password', PASSWORD_BCRYPT);
                     $stmtInsertUser->execute([
                         ':username'   => $rawNumber,
-                        ':password'   => $passwordHash,
+                        ':password'   => $defaultPasswordHash,
                         ':name'       => $rawName,
                         ':student_id' => $studentId
                     ]);
