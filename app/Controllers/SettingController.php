@@ -94,12 +94,12 @@ class SettingController
             Database::commit();
 
             Logger::log('SETTING_CHANGE', 'settings', null, "Ketua Angkatan memperbarui pengaturan sistem dan jadwal cicilan.");
-            Flash::setSuccess("Pengaturan aplikasi dan jadwal cicilan berhasil diperbarui.");
+            Flash::setSuccess("Pengaturan aplikasi dan jadwal cicilan berhasil diperbarui.", "Pengaturan Disimpan");
             Response::redirect('/settings');
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error updating settings: " . $e->getMessage());
-            Flash::setError("Gagal memperbarui pengaturan: " . $e->getMessage());
+            Flash::setError("Gagal memperbarui pengaturan: " . $e->getMessage(), "Gagal Simpan Pengaturan");
             Response::redirect('/settings');
         }
     }

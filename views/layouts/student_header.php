@@ -76,4 +76,6 @@ $user = Auth::user();
 </header>
 
 <div class="portal-container-shell">
-    <?= Flash::render() ?>
+    <div id="flash-container" class="flash-alert-container">
+        <?= Flash::render() ?>
+    </div>

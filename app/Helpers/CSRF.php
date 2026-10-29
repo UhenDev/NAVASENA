@@ -35,7 +35,7 @@ class CSRF
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = $_POST['csrf_token'] ?? '';
             if (!self::validate($token)) {
-                Flash::setError("Sesi validasi keamanan (CSRF) kadaluarsa. Silakan ulangi kembali.");
+                Flash::setError("Sesi validasi keamanan (CSRF) kadaluarsa. Silakan ulangi kembali aksi Anda.", "Keamanan Sesi");
                 $referer = $_SERVER['HTTP_REFERER'] ?? '/';
                 Response::redirect($referer);
             }

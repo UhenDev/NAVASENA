@@ -40,7 +40,7 @@ class AuthController
         $password = trim($_POST['password'] ?? '');
 
         if (empty($username) || empty($password)) {
-            Flash::setError("Username dan kata sandi wajib diisi.");
+            Flash::setError("Username dan kata sandi wajib diisi.", "Validasi Login");
             Response::redirect('/login');
         }
 
@@ -57,25 +57,25 @@ class AuthController
 
         if (!$user) {
             Logger::log('LOGIN_FAILED', 'user', null, "Percobaan login gagal untuk username: $username");
-            Flash::setError("Kombinasi username atau kata sandi tidak ditemukan.");
+            Flash::setError("Kombinasi username atau kata sandi tidak ditemukan.", "Gagal Masuk");
             Response::redirect('/login');
         }
 
         if ((int)$user['is_active'] !== 1) {
-            Flash::setError("Akun Anda telah dinonaktifkan. Silakan hubungi pengurus angkatan.");
+            Flash::setError("Akun Anda telah dinonaktifkan. Silakan hubungi pengurus angkatan.", "Akun Nonaktif");
             Response::redirect('/login');
         }
 
         // Jika akun siswa, pastikan data siswa juga aktif
         if ($user['role'] === 'siswa' && $user['student_status'] === 'nonaktif') {
-            Flash::setError("Status data siswa Anda saat ini nonaktif. Silakan hubungi pengurus.");
+            Flash::setError("Status data siswa Anda saat ini nonaktif. Silakan hubungi pengurus.", "Data Siswa Nonaktif");
             Response::redirect('/login');
         }
 
         // Verifikasi password menggunakan password_verify (Bcrypt)
         if (!password_verify($password, $user['password_hash'])) {
             Logger::log('LOGIN_FAILED', 'user', (string)$user['id'], "Password salah untuk username: $username");
-            Flash::setError("Kombinasi username atau kata sandi salah.");
+            Flash::setError("Kombinasi kata sandi yang Anda masukkan salah.", "Kata Sandi Salah");
             Response::redirect('/login');
         }
 
@@ -90,11 +90,11 @@ class AuthController
 
         // Jika ada kewajiban ganti password (misal akun default pertama kali)
         if ((int)$user['force_change_password'] === 1) {
-            Flash::setInfo("Demi keamanan data, silakan buat kata sandi baru untuk akun Anda.");
+            Flash::setInfo("Demi keamanan data, silakan buat kata sandi baru untuk akun Anda.", "Pembaruan Kata Sandi");
             Response::redirect('/change-password');
         }
 
-        Flash::setSuccess("Selamat datang kembali, " . $user['full_name'] . "!");
+        Flash::setSuccess("Selamat datang kembali, " . $user['full_name'] . "!", "Autentikasi Berhasil");
 
         if ($user['role'] === 'siswa') {
             Response::redirect('/portal');
@@ -109,7 +109,7 @@ class AuthController
             Logger::log('LOGOUT', 'user', (string)Auth::id(), "Pengguna " . Auth::username() . " keluar.");
             Auth::logout();
         }
-        Flash::setSuccess("Anda telah berhasil keluar dari sistem.");
+        Flash::setSuccess("Anda telah berhasil keluar dari sistem Guardian of Navasena 27.", "Sesi Berakhir");
         Response::redirect('/login');
     }
 
@@ -133,17 +133,17 @@ class AuthController
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
         if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-            Flash::setError("Semua kolom kata sandi wajib diisi.");
+            Flash::setError("Semua kolom kata sandi wajib diisi.", "Formulir Belum Lengkap");
             Response::redirect('/change-password');
         }
 
         if (strlen($newPassword) < 6) {
-            Flash::setError("Kata sandi baru minimal 6 karakter.");
+            Flash::setError("Kata sandi baru minimal 6 karakter.", "Kata Sandi Terlalu Pendek");
             Response::redirect('/change-password');
         }
 
         if ($newPassword !== $confirmPassword) {
-            Flash::setError("Konfirmasi kata sandi baru tidak cocok.");
+            Flash::setError("Konfirmasi kata sandi baru tidak cocok.", "Konfirmasi Tidak Sesuai");
             Response::redirect('/change-password');
         }
 
@@ -153,7 +153,7 @@ class AuthController
         $currentHash = $stmt->fetchColumn();
 
         if (!password_verify($currentPassword, $currentHash)) {
-            Flash::setError("Kata sandi lama yang Anda masukkan tidak sesuai.");
+            Flash::setError("Kata sandi lama yang Anda masukkan tidak sesuai.", "Verifikasi Gagal");
             Response::redirect('/change-password');
         }
 
@@ -171,7 +171,7 @@ class AuthController
         $_SESSION['force_change_password'] = 0;
 
         Logger::log('PASSWORD_CHANGE', 'user', (string)Auth::id(), "Pengguna " . Auth::username() . " berhasil memperbarui kata sandi.");
-        Flash::setSuccess("Kata sandi berhasil diperbarui.");
+        Flash::setSuccess("Kata sandi Anda berhasil diperbarui dengan aman.", "Keamanan Akun");
 
         if (Auth::isSiswa()) {
             Response::redirect('/portal');

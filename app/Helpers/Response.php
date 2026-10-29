@@ -21,6 +21,10 @@ class Response
             $fullUrl = $path;
         }
 
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+
         header("Location: " . $fullUrl);
         exit;
     }

@@ -179,11 +179,11 @@ class CashController
                 "Catat Kas " . ucfirst($type) . " [$category]: " . View::formatRupiah($amount) . " - $description"
             );
 
-            Flash::setSuccess("Transaksi kas " . ucfirst($type) . " sebesar " . View::formatRupiah($amount) . " berhasil dicatat.");
+            Flash::setSuccess("Transaksi kas " . ucfirst($type) . " sebesar " . View::formatRupiah($amount) . " berhasil dicatat.", "Buku Kas Angkatan");
             Response::redirect('/cash');
         } catch (Exception $e) {
             error_log("Error creating cash transaction: " . $e->getMessage());
-            Flash::setError("Gagal menyimpan transaksi kas: " . $e->getMessage());
+            Flash::setError("Gagal menyimpan transaksi kas: " . $e->getMessage(), "Kesalahan Transaksi Kas");
             Response::redirect('/cash/create');
         }
     }
@@ -233,11 +233,11 @@ class CashController
                 "Transaksi kas #$id (" . View::formatRupiah($cash['amount']) . ") dibatalkan. Alasan: $reason"
             );
 
-            Flash::setSuccess("Transaksi kas berhasil dibatalkan dan saldo kas telah disesuaikan.");
+            Flash::setSuccess("Transaksi kas berhasil dibatalkan dan saldo kas telah disesuaikan.", "Pembatalan Kas Berhasil");
             Response::redirect('/cash');
         } catch (Exception $e) {
             error_log("Error cancelling cash: " . $e->getMessage());
-            Flash::setError("Gagal membatalkan transaksi kas: " . $e->getMessage());
+            Flash::setError("Gagal membatalkan transaksi kas: " . $e->getMessage(), "Gagal Pembatalan Kas");
             Response::redirect('/cash');
         }
     }

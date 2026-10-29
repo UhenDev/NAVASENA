@@ -22,18 +22,20 @@ use App\Helpers\View;
         <div class="login-crest-header">
             <img src="<?= View::url('/assets/img/logo.png') ?>" alt="Official Crest" class="login-crest-img">
             <h1>GUARDIAN OF NAVASENA 27</h1>
-            <p>SMKN 1 PANYINGKIRAN &bull; PORTAL KEUANGAN</p>
+            <p>SMKN 1 PANYINGKIRAN &bull; MANAGEMENT KEUANGAN</p>
         </div>
 
         <div class="login-body">
-            <?= Flash::render() ?>
+            <div id="flash-container" class="flash-alert-container">
+                <?= Flash::render() ?>
+            </div>
 
             <form method="POST" action="<?= View::url('/login') ?>">
                 <?= CSRF::field() ?>
 
                 <div class="form-group">
                     <label class="form-label" for="username">Username / Nomor Induk Siswa (NIS)</label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Contoh: uhen atau NIS Siswa" required autofocus autocomplete="username">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Contoh: NIS Siswa" required autofocus autocomplete="off">
                 </div>
 
                 <div class="form-group">

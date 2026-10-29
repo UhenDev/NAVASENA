@@ -187,12 +187,12 @@ class StudentController
             Database::commit();
 
             Logger::log('STUDENT_CREATE', 'student', (string)$studentId, "Siswa baru ditambahkan: $fullName ($studentNumber)");
-            Flash::setSuccess("Siswa $fullName berhasil ditambahkan dengan kewajiban iuran " . View::formatRupiah($totalDues) . ".");
+            Flash::setSuccess("Siswa $fullName berhasil ditambahkan dengan kewajiban iuran " . View::formatRupiah($totalDues) . ".", "Siswa Berhasil Ditambahkan");
             Response::redirect('/students/' . $studentId);
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error creating student: " . $e->getMessage());
-            Flash::setError("Gagal menyimpan data siswa: " . $e->getMessage());
+            Flash::setError("Gagal menyimpan data siswa: " . $e->getMessage(), "Gagal Tambah Siswa");
             Response::redirect('/students/create');
         }
     }
@@ -316,7 +316,7 @@ class StudentController
         $stmtUser->execute([':name' => $fullName, ':id' => $id]);
 
         Logger::log('STUDENT_UPDATE', 'student', (string)$id, "Data siswa $fullName ($studentNumber) diperbarui.");
-        Flash::setSuccess("Data siswa berhasil diperbarui.");
+        Flash::setSuccess("Data siswa $fullName berhasil diperbarui.", "Pembaruan Data Siswa");
         Response::redirect("/students/$id");
     }
 
@@ -331,7 +331,7 @@ class StudentController
         $student = $stmt->fetch();
 
         if (!$student) {
-            Flash::setError("Data siswa tidak ditemukan.");
+            Flash::setError("Data siswa tidak ditemukan.", "Siswa Tidak Ditemukan");
             Response::redirect('/students');
         }
 
@@ -341,7 +341,7 @@ class StudentController
         $stmtToggle->execute([':status' => $newStatus, ':id' => $id]);
 
         Logger::log('STUDENT_STATUS', 'student', (string)$id, "Status siswa {$student['full_name']} diubah menjadi $newStatus.");
-        Flash::setSuccess("Status siswa {$student['full_name']} berhasil diubah menjadi " . strtoupper($newStatus) . ". Riwayat transaksi tetap tersimpan.");
+        Flash::setSuccess("Status siswa {$student['full_name']} berhasil diubah menjadi " . strtoupper($newStatus) . ". Riwayat transaksi tetap tersimpan.", "Status Siswa Diperbarui");
         Response::redirect("/students/$id");
     }
 
@@ -400,9 +400,9 @@ class StudentController
         }
 
         if ($result['success']) {
-            Flash::setSuccess($result['message']);
+            Flash::setSuccess($result['message'], "Import Data Selesai");
         } else {
-            Flash::setError($result['message']);
+            Flash::setError($result['message'], "Import Bermasalah");
         }
 
         // Tampilkan halaman detail hasil impor

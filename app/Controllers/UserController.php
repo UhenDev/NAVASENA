@@ -123,11 +123,11 @@ class UserController
             $userId = (int)$db->lastInsertId();
 
             Logger::log('USER_CREATE', 'user', (string)$userId, "Akun baru dibuat: $username ($role) oleh Ketua.");
-            Flash::setSuccess("Akun pengurus $fullName ($role) berhasil dibuat.");
+            Flash::setSuccess("Akun pengurus $fullName ($role) berhasil dibuat.", "Pengguna Baru Dibuat");
             Response::redirect('/users');
         } catch (Exception $e) {
             error_log("Error creating user: " . $e->getMessage());
-            Flash::setError("Gagal membuat akun: " . $e->getMessage());
+            Flash::setError("Gagal membuat akun: " . $e->getMessage(), "Gagal Buat Akun");
             Response::redirect('/users/create');
         }
     }
@@ -139,7 +139,7 @@ class UserController
 
         $newPassword = trim($_POST['new_password'] ?? '');
         if (empty($newPassword) || strlen($newPassword) < 6) {
-            Flash::setError("Kata sandi baru minimal 6 karakter.");
+            Flash::setError("Kata sandi baru minimal 6 karakter.", "Validasi Kata Sandi");
             Response::redirect('/users');
         }
 
@@ -150,7 +150,7 @@ class UserController
             $user = $stmt->fetch();
 
             if (!$user) {
-                Flash::setError("Pengguna tidak ditemukan.");
+                Flash::setError("Pengguna tidak ditemukan.", "Pengguna Tidak Ada");
                 Response::redirect('/users');
             }
 
@@ -159,11 +159,11 @@ class UserController
             $stmtUpdate->execute([':hash' => $hash, ':id' => $id]);
 
             Logger::log('USER_RESET_PASSWORD', 'user', (string)$id, "Reset password untuk pengguna {$user['username']} oleh Ketua.");
-            Flash::setSuccess("Kata sandi untuk pengguna {$user['full_name']} ({$user['username']}) berhasil direset.");
+            Flash::setSuccess("Kata sandi untuk pengguna {$user['full_name']} ({$user['username']}) berhasil direset.", "Reset Kata Sandi Berhasil");
             Response::redirect('/users');
         } catch (Exception $e) {
             error_log("Error resetting password: " . $e->getMessage());
-            Flash::setError("Gagal mereset kata sandi: " . $e->getMessage());
+            Flash::setError("Gagal mereset kata sandi: " . $e->getMessage(), "Gagal Reset Kata Sandi");
             Response::redirect('/users');
         }
     }
@@ -174,7 +174,7 @@ class UserController
         CSRF::checkRequest();
 
         if ($id === Auth::id()) {
-            Flash::setError("Anda tidak dapat menonaktifkan akun Anda sendiri yang sedang aktif.");
+            Flash::setError("Anda tidak dapat menonaktifkan akun Anda sendiri yang sedang aktif.", "Tindakan Ditolak");
             Response::redirect('/users');
         }
 
@@ -185,7 +185,7 @@ class UserController
             $user = $stmt->fetch();
 
             if (!$user) {
-                Flash::setError("Pengguna tidak ditemukan.");
+                Flash::setError("Pengguna tidak ditemukan.", "Pengguna Tidak Ada");
                 Response::redirect('/users');
             }
 
@@ -195,11 +195,11 @@ class UserController
 
             $statusStr = $newActive === 1 ? 'diaktifkan' : 'dinonaktifkan';
             Logger::log('USER_STATUS', 'user', (string)$id, "Akun {$user['username']} $statusStr oleh Ketua.");
-            Flash::setSuccess("Akun {$user['full_name']} berhasil $statusStr.");
+            Flash::setSuccess("Akun {$user['full_name']} berhasil $statusStr.", "Status Akun Diperbarui");
             Response::redirect('/users');
         } catch (Exception $e) {
             error_log("Error toggling user status: " . $e->getMessage());
-            Flash::setError("Gagal mengubah status akun: " . $e->getMessage());
+            Flash::setError("Gagal mengubah status akun: " . $e->getMessage(), "Gagal Mengubah Status");
             Response::redirect('/users');
         }
     }

@@ -245,12 +245,12 @@ class PaymentController
                 "Pembayaran dicatat: $receiptNumber sejumlah " . View::formatRupiah($amount) . " untuk siswa {$student['full_name']} ({$student['student_number']}). Status: Menunggu Verifikasi."
             );
 
-            Flash::setSuccess("Pembayaran dengan kuitansi $receiptNumber (" . View::formatRupiah($amount) . ") berhasil dicatat dan sedang menunggu verifikasi.");
+            Flash::setSuccess("Pembayaran dengan kuitansi $receiptNumber (" . View::formatRupiah($amount) . ") berhasil dicatat dan sedang menunggu verifikasi.", "Pencatatan Pembayaran");
             Response::redirect('/payments/' . $paymentId);
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error recording payment: " . $e->getMessage());
-            Flash::setError("Gagal mencatat transaksi pembayaran: " . $e->getMessage());
+            Flash::setError("Gagal mencatat transaksi pembayaran: " . $e->getMessage(), "Kesalahan Pencatatan");
             Response::redirect('/payments/create');
         }
     }
@@ -424,12 +424,12 @@ class PaymentController
                 "Pembayaran {$payment['receipt_number']} sejumlah " . View::formatRupiah($payment['amount']) . " berhasil diverifikasi oleh " . Auth::fullName()
             );
 
-            Flash::setSuccess("Pembayaran {$payment['receipt_number']} telah berhasil diverifikasi dan otomatis tercatat dalam kas masuk angkatan.");
+            Flash::setSuccess("Pembayaran {$payment['receipt_number']} telah berhasil diverifikasi dan otomatis tercatat dalam kas masuk angkatan.", "Verifikasi Pembayaran Sah");
             Response::redirect('/payments/' . $id);
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error verifying payment: " . $e->getMessage());
-            Flash::setError("Gagal memverifikasi transaksi: " . $e->getMessage());
+            Flash::setError("Gagal memverifikasi transaksi: " . $e->getMessage(), "Gagal Verifikasi");
             Response::redirect('/payments/' . $id);
         }
     }
@@ -493,12 +493,12 @@ class PaymentController
                 "Pembayaran {$payment['receipt_number']} ditolak. Alasan: $reason"
             );
 
-            Flash::setSuccess("Pembayaran {$payment['receipt_number']} telah ditolak dan tidak dihitung sebagai penerimaan sah.");
+            Flash::setSuccess("Pembayaran {$payment['receipt_number']} telah ditolak dan tidak dihitung sebagai penerimaan sah.", "Penolakan Transaksi");
             Response::redirect('/payments/' . $id);
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error rejecting payment: " . $e->getMessage());
-            Flash::setError("Gagal menolak transaksi: " . $e->getMessage());
+            Flash::setError("Gagal menolak transaksi: " . $e->getMessage(), "Gagal Menolak");
             Response::redirect('/payments/' . $id);
         }
     }
@@ -573,12 +573,12 @@ class PaymentController
                 "Transaksi {$payment['receipt_number']} sejumlah " . View::formatRupiah($payment['amount']) . " dibatalkan oleh " . Auth::fullName() . ". Alasan: $reason"
             );
 
-            Flash::setSuccess("Transaksi {$payment['receipt_number']} berhasil dibatalkan dengan jejak audit tersimpan.");
+            Flash::setSuccess("Transaksi {$payment['receipt_number']} berhasil dibatalkan dengan jejak audit reversal tersimpan.", "Audit Reversal (VOID)");
             Response::redirect('/payments/' . $id);
         } catch (Exception $e) {
             Database::rollBack();
             error_log("Error cancelling payment: " . $e->getMessage());
-            Flash::setError("Gagal membatalkan transaksi: " . $e->getMessage());
+            Flash::setError("Gagal membatalkan transaksi: " . $e->getMessage(), "Gagal Pembatalan");
             Response::redirect('/payments/' . $id);
         }
     }

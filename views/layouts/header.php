@@ -122,4 +122,6 @@ $user = Auth::user();
         </header>
 
         <main class="app-content">
-            <?= Flash::render() ?>
+            <div id="flash-container" class="flash-alert-container">
+                <?= Flash::render() ?>
+            </div>

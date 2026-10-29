@@ -942,34 +942,255 @@ select.form-control option {
   font-size: 0.85rem;
 }
 
-/* Alerts */
-.alert {
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius-sm);
+/* ==========================================================================
+   Executive Frosted Glass Alert System (Guardian of Navasena 27)
+   ========================================================================== */
+.flash-alert-container {
+  width: 100%;
   margin-bottom: 1.5rem;
   display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.login-body .flash-alert-container {
+  margin-bottom: 1.25rem;
+}
+
+.alert {
+  position: relative;
+  overflow: hidden;
+  display: flex;
   align-items: flex-start;
-  gap: 0.85rem;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
-  backdrop-filter: var(--glass-blur);
+  line-height: 1.5;
+  background: rgba(11, 16, 29, 0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.65);
+  animation: alertSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, max-height;
+  max-height: 250px;
 }
 
+.alert.alert-dismissing {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.98);
+  max-height: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  pointer-events: none;
+}
+
+@keyframes alertSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Alert Icon Wrapper */
+.alert-icon-wrapper {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.alert-icon {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px;
+  min-height: 22px;
+  max-width: 22px;
+  max-height: 22px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Alert Content */
+.alert-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.alert-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.alert-title {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.01em;
+}
+
+.alert-message {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  word-break: break-word;
+  line-height: 1.55;
+}
+
+/* Alert Close Button */
+.alert-close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin: -0.25rem -0.25rem 0 0;
+}
+
+.alert-close:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(90deg);
+}
+
+/* Alert Progress Bar (Auto-dismiss Countdown) */
+.alert-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.alert-progress-fill {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  animation: alertProgressShrink linear forwards;
+}
+
+.alert:hover .alert-progress-fill {
+  animation-play-state: paused !important;
+}
+
+@keyframes alertProgressShrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* 1. SUCCESS ALERT (Emerald Luxury) */
 .alert-success {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid var(--verified-border);
-  color: var(--verified-fg);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.65), 0 0 20px -5px rgba(16, 185, 129, 0.22);
+}
+.alert-success .alert-icon-wrapper {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34D399;
+}
+.alert-success .alert-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+.alert-success .alert-progress-fill {
+  background: linear-gradient(90deg, #10B981, #34D399);
 }
 
+/* 2. DANGER / ERROR ALERT (Crimson Glass) */
 .alert-danger {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid var(--void-border);
-  color: var(--void-fg);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.65), 0 0 20px -5px rgba(239, 68, 68, 0.25);
+}
+.alert-danger .alert-icon-wrapper {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #F87171;
+}
+.alert-danger .alert-badge {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.alert-danger .alert-progress-fill {
+  background: linear-gradient(90deg, #EF4444, #F87171);
 }
 
+/* 3. WARNING ALERT (Amber Gold) */
+.alert-warning {
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.65), 0 0 20px -5px rgba(245, 158, 11, 0.22);
+}
+.alert-warning .alert-icon-wrapper {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #FBBF24;
+}
+.alert-warning .alert-badge {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.alert-warning .alert-progress-fill {
+  background: linear-gradient(90deg, #F59E0B, #FBBF24);
+}
+
+/* 4. INFO ALERT (Sapphire Sky) */
 .alert-info {
-  background: rgba(37, 99, 235, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  color: #93C5FD;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.65), 0 0 20px -5px rgba(56, 189, 248, 0.22);
+}
+.alert-info .alert-icon-wrapper {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38BDF8;
+}
+.alert-info .alert-badge {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+.alert-info .alert-progress-fill {
+  background: linear-gradient(90deg, #0284C7, #38BDF8);
 }
 
 /* Login Page Specific Layout */

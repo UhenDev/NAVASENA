@@ -4,15 +4,20 @@ use App\Helpers\View;
 
 <!-- Pengumuman Resmi Pengurus Angkatan -->
 <?php if (!empty($announcement)): ?>
-    <div class="alert alert-info" style="margin-bottom: 1.5rem; background: rgba(30, 58, 138, 0.25); border-color: rgba(59, 130, 246, 0.4);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold-solid); flex-shrink:0;">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-        </svg>
-        <div>
-            <div style="font-weight: 700; color: var(--gold-text); margin-bottom: 0.15rem; font-size: 0.85rem; text-transform:uppercase; letter-spacing:0.05em;">
-                Pengumuman Resmi Pengurus Angkatan:
+    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+        <div class="alert-icon-wrapper">
+            <svg class="alert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </div>
+        <div class="alert-content">
+            <div class="alert-header">
+                <span class="alert-badge" style="background: rgba(223, 178, 86, 0.2); color: var(--gold-solid); border: 1px solid var(--glass-border-gold);">PENGUMUMAN RESMI</span>
+                <strong class="alert-title">Informasi Pengurus Angkatan</strong>
             </div>
-            <div style="color: #E2E8F0; font-size: 0.875rem;"><?= nl2br(View::e($announcement)) ?></div>
+            <div class="alert-message" style="color: #E2E8F0;"><?= nl2br(View::e($announcement)) ?></div>
         </div>
     </div>
 <?php endif; ?>

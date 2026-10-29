@@ -107,7 +107,7 @@ class Auth
     public static function requireLogin(): void
     {
         if (!self::check()) {
-            Flash::setError("Silakan masuk terlebih dahulu untuk mengakses sistem.");
+            Flash::setError("Silakan masuk terlebih dahulu untuk mengakses sistem.", "Akses Terbatas");
             Response::redirect('/login');
         }
     }
@@ -120,7 +120,7 @@ class Auth
         $currentRole = self::role();
 
         if (!in_array($currentRole, $roles, true)) {
-            Flash::setError("Anda tidak memiliki izin untuk mengakses halaman tersebut.");
+            Flash::setError("Anda tidak memiliki izin untuk mengakses halaman tersebut.", "Hak Akses Dibatasi");
             if ($currentRole === 'siswa') {
                 Response::redirect('/portal');
             } else {

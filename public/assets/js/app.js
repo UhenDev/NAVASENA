@@ -183,21 +183,161 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------
-    // 8. Mobile Bottom Navigation Active State Highlighter
+    // 8. Executive Glass Alert System Helpers & Auto-Dismiss
+    // -------------------------------------------------------------
+    window.dismissAlert = function(alertEl) {
+        if (!alertEl || alertEl.classList.contains('alert-dismissing')) return;
+        alertEl.classList.add('alert-dismissing');
+        setTimeout(() => {
+            if (alertEl.parentNode) {
+                alertEl.parentNode.removeChild(alertEl);
+            }
+        }, 360);
+    };
+
+    function setupAlertAutoDismiss(alertEl) {
+        if (!alertEl || alertEl.dataset.initializedAutoDismiss) return;
+        alertEl.dataset.initializedAutoDismiss = 'true';
+
+        const timeoutMs = parseInt(alertEl.getAttribute('data-auto-dismiss') || '0', 10);
+        if (timeoutMs <= 0) return;
+
+        // Set CSS duration for the progress bar animation
+        const progressFill = alertEl.querySelector('.alert-progress-fill');
+        if (progressFill) {
+            progressFill.style.animationDuration = `${timeoutMs}ms`;
+        }
+
+        let remaining = timeoutMs;
+        let startTime = Date.now();
+        let timer = null;
+
+        function startTimer() {
+            startTime = Date.now();
+            timer = setTimeout(() => {
+                window.dismissAlert(alertEl);
+            }, remaining);
+        }
+
+        function pauseTimer() {
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+                remaining -= Date.now() - startTime;
+                if (remaining < 100) remaining = 100;
+            }
+        }
+
+        alertEl.addEventListener('mouseenter', pauseTimer);
+        alertEl.addEventListener('mouseleave', () => {
+            if (!alertEl.classList.contains('alert-dismissing')) {
+                startTimer();
+            }
+        });
+
+        startTimer();
+    }
+
+    // Initialize all existing alerts on page load
+    document.querySelectorAll('.alert[data-auto-dismiss]').forEach(setupAlertAutoDismiss);
+
+    // Global Client-Side Alert / Toast Dispatcher
+    window.showAlert = function(type = 'success', message = '', title = '') {
+        let container = document.getElementById('flash-container');
+        if (!container) {
+            const mainContent = document.querySelector('.app-content') || document.querySelector('.portal-container-shell') || document.querySelector('.login-body') || document.body;
+            container = document.createElement('div');
+            container.id = 'flash-container';
+            container.className = 'flash-alert-container';
+            if (mainContent.firstChild) {
+                mainContent.insertBefore(container, mainContent.firstChild);
+            } else {
+                mainContent.appendChild(container);
+            }
+        }
+
+        const validTypes = {
+            success: {
+                badge: 'BERHASIL',
+                defaultTitle: 'Aksi Berhasil Dilakukan',
+                duration: 6000,
+                icon: '<svg class="alert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+            },
+            danger: {
+                badge: 'PERHATIAN',
+                defaultTitle: 'Terjadi Kesalahan',
+                duration: 9000,
+                icon: '<svg class="alert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+            },
+            warning: {
+                badge: 'PERINGATAN',
+                defaultTitle: 'Pemberitahuan Penting',
+                duration: 8000,
+                icon: '<svg class="alert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+            },
+            info: {
+                badge: 'INFORMASI',
+                defaultTitle: 'Informasi Sistem',
+                duration: 6000,
+                icon: '<svg class="alert-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+            }
+        };
+
+        const cfg = validTypes[type] || validTypes.info;
+        const finalTitle = title || cfg.defaultTitle;
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible`;
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.setAttribute('data-auto-dismiss', cfg.duration);
+
+        alertDiv.innerHTML = `
+            <div class="alert-icon-wrapper">
+                ${cfg.icon}
+            </div>
+            <div class="alert-content">
+                <div class="alert-header">
+                    <span class="alert-badge">${cfg.badge}</span>
+                    <strong class="alert-title">${finalTitle}</strong>
+                </div>
+                <div class="alert-message">${message}</div>
+            </div>
+            <button type="button" class="alert-close" aria-label="Tutup notifikasi">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="alert-progress-bar"><div class="alert-progress-fill"></div></div>
+        `;
+
+        alertDiv.querySelector('.alert-close').addEventListener('click', () => {
+            window.dismissAlert(alertDiv);
+        });
+
+        container.appendChild(alertDiv);
+        setupAlertAutoDismiss(alertDiv);
+    };
+
+    // -------------------------------------------------------------
+    // 9. Mobile Bottom Navigation Active State Highlighter
     // -------------------------------------------------------------
     const currentPath = window.location.pathname;
     const dockItems = document.querySelectorAll('.dock-item');
 
     dockItems.forEach(item => {
         const href = item.getAttribute('href');
-        if (href && currentPath.includes(href.replace(/\/$/, ''))) {
-            dockItems.forEach(d => d.classList.remove('active'));
-            item.classList.add('active');
+        if (href) {
+            const cleanHref = href.replace(/\/$/, '');
+            if (cleanHref && currentPath.includes(cleanHref)) {
+                dockItems.forEach(d => d.classList.remove('active'));
+                item.classList.add('active');
+            }
         }
     });
 
     // -------------------------------------------------------------
-    // 9. Auto Print Trigger on query ?print=1
+    // 10. Auto Print Trigger on query ?print=1
     // -------------------------------------------------------------
     if (window.location.search.includes('print=1')) {
         window.print();
