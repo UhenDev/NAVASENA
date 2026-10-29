@@ -61,5 +61,6 @@ use App\Helpers\View;
     </div>
 </div>
 
+<script src="<?= View::url('/assets/js/app.js') ?>"></script>
 </body>
 </html>

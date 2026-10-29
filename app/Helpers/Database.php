@@ -45,7 +45,11 @@ class Database
                 if (self::$pdo === null) {
                     error_log("Database connection error: " . $e->getMessage());
 
-                    $isDocker = file_exists('/.dockerenv') || getenv('DB_HOST') !== false;
+                    if (php_sapi_name() === 'cli') {
+                        fwrite(STDERR, "[NAVASENA DB ERROR] " . $e->getMessage() . "\n");
+                        throw $e;
+                    }
+
                     $host = htmlspecialchars($config['host']);
                     $port = (int)$config['port'];
                     $db   = htmlspecialchars($config['dbname']);
@@ -97,25 +101,117 @@ class Database
                 }
             }
 
-            // Inisialisasi skema tabel otomatis jika tabel masih kosong
+            // Self-Healing Auto-Initialization:
+            // 1. Cek tabel-tabel utama. Jika belum ada, jalankan schema.sql
             try {
                 $stmt = self::$pdo->query("SHOW TABLES");
                 $existingTables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                $dbDir = dirname(__DIR__, 2) . '/database';
+                
                 if (count($existingTables) === 0) {
-                    $schemaPath = dirname(__DIR__, 2) . '/database/schema.sql';
-                    if (file_exists($schemaPath)) {
-                        $sql = file_get_contents($schemaPath);
-                        $sql = preg_replace('/CREATE DATABASE [^;]+;/i', '', $sql);
-                        $sql = preg_replace('/USE [^;]+;/i', '', $sql);
-                        self::$pdo->exec($sql);
+                    self::executeSqlFile(self::$pdo, $dbDir . '/schema.sql');
+                }
+
+                // 2. Cek apakah akun master / users sudah ada. Jika kosong, jalankan seed.sql
+                $hasUsersTable = in_array('users', $existingTables, true);
+                if (!$hasUsersTable) {
+                    $tablesCheck = self::$pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+                    $hasUsersTable = in_array('users', $tablesCheck, true);
+                }
+
+                if ($hasUsersTable) {
+                    $userCount = (int)self::$pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+                    if ($userCount === 0 && file_exists($dbDir . '/seed.sql')) {
+                        self::executeSqlFile(self::$pdo, $dbDir . '/seed.sql');
+                    }
+                }
+
+                // 3. Cek apakah data siswa sudah ada. Jika kosong, jalankan seed_students.sql
+                $hasStudentsTable = in_array('students', $existingTables, true);
+                if (!$hasStudentsTable) {
+                    $tablesCheck = self::$pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+                    $hasStudentsTable = in_array('students', $tablesCheck, true);
+                }
+
+                if ($hasStudentsTable) {
+                    $studentCount = (int)self::$pdo->query("SELECT COUNT(*) FROM students")->fetchColumn();
+                    if ($studentCount === 0 && file_exists($dbDir . '/seed_students.sql')) {
+                        self::executeSqlFile(self::$pdo, $dbDir . '/seed_students.sql');
                     }
                 }
             } catch (\Throwable $t) {
-                // Lanjutkan jika tabel sudah ada
+                error_log("Database Auto-Init Warning: " . $t->getMessage());
             }
         }
 
         return self::$pdo;
+    }
+
+    /**
+     * Menjalankan berkas query SQL secara aman
+     */
+    public static function executeSqlFile(PDO $pdo, string $filePath): bool
+    {
+        if (!file_exists($filePath)) {
+            return false;
+        }
+
+        $sql = file_get_contents($filePath);
+        if (trim($sql) === '') {
+            return true;
+        }
+
+        // Hapus pernyataan CREATE DATABASE dan USE agar tetap menggunakan koneksi DB aktif
+        $sql = preg_replace('/CREATE DATABASE [^;]+;/i', '', $sql);
+        $sql = preg_replace('/USE [^;]+;/i', '', $sql);
+
+        // Hapus komentar SQL
+        $lines = explode("\n", $sql);
+        $cleanLines = [];
+        $inBlockComment = false;
+
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if ($inBlockComment) {
+                if (str_contains($trimmed, '*/')) {
+                    $inBlockComment = false;
+                }
+                continue;
+            }
+            if (str_starts_with($trimmed, '/*')) {
+                if (!str_contains($trimmed, '*/')) {
+                    $inBlockComment = true;
+                }
+                continue;
+            }
+            if (str_starts_with($trimmed, '--') || str_starts_with($trimmed, '#')) {
+                continue;
+            }
+            if ($trimmed !== '') {
+                $cleanLines[] = $line;
+            }
+        }
+
+        $cleanSql = implode("\n", $cleanLines);
+
+        try {
+            $pdo->exec($cleanSql);
+            return true;
+        } catch (\Throwable $e) {
+            // Fallback: jalankan pernyataan satu per satu jika driver tidak mendukung multi-statement utuh
+            $statements = preg_split('/;\s*(\r\n|\r|\n)/m', $cleanSql);
+            foreach ($statements as $stmt) {
+                $stmt = trim($stmt);
+                if (!empty($stmt)) {
+                    try {
+                        $pdo->exec($stmt);
+                    } catch (\Throwable $stEx) {
+                        error_log("executeSqlFile warning: " . $stEx->getMessage() . " on statement: " . substr($stmt, 0, 80));
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     public static function beginTransaction(): bool

@@ -44,8 +44,8 @@ try {
     // TEST 1: Database & Master Schema
     // -------------------------------------------------------------
     echo "\n--- KELOMPOK UJI 1: Skema Database & Akun Master ---\n";
-    $stmtTables = $db->query("SHOW TABLES LIKE 'navasena_%'");
-    $stmtCount = $db->query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'navasena_keuangan'");
+    $stmtTables = $db->query("SHOW TABLES");
+    $stmtCount = $db->query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE()");
     $tableCount = (int)$stmtCount->fetchColumn();
     assertTest($tableCount >= 9, "9 tabel utama berhasil terdaftar di database MySQL/MariaDB ($tableCount tabel)");
 

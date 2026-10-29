@@ -280,7 +280,7 @@ try {
             'pageTitle' => '404 - Halaman Tidak Ditemukan'
         ], 'none');
     }
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     http_response_code(500);
     error_log("Unhandled Application Exception: " . $e->getMessage() . "\n" . $e->getTraceAsString());
     View::render('errors/500', [

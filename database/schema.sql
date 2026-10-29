@@ -4,12 +4,6 @@
 -- Target: Rp 123.000.000 (492 siswa x Rp 250.000)
 -- ==============================================================================
 
-CREATE DATABASE IF NOT EXISTS `navasena_keuangan` 
-CHARACTER SET utf8mb4 
-COLLATE utf8mb4_unicode_ci;
-
-USE `navasena_keuangan`;
-
 -- 1. Tabel Settings (Konfigurasi Aplikasi & Iuran)
 CREATE TABLE IF NOT EXISTS `settings` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,

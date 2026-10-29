@@ -4,8 +4,6 @@
 -- Note: NO fake/dummy student data!
 -- ==============================================================================
 
-USE `navasena_keuangan`;
-
 -- 1. Default Settings
 INSERT INTO `settings` (`setting_key`, `setting_value`, `description`) VALUES
 ('app_name', 'NAVASENA MANAGEMENT', 'Nama Sistem Informasi Pengelolaan Keuangan Angkatan'),

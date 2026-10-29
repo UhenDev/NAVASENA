@@ -2,7 +2,7 @@
 -- SEED DATA: 489 SISWA RESMI GUARDIAN OF NAVASENA 27 (SMKN 1 PANYINGKIRAN)
 -- ==============================================================================
 
-USE `navasena_keuangan`;
+-- Database auto-targeted
 
 -- 1. Update target siswa angkatan
 UPDATE `settings` SET `setting_value` = '489' WHERE `setting_key` = 'target_students_count';

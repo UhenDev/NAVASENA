@@ -49,13 +49,22 @@ class ImportService
             rewind($handle);
         }
 
-        // Deteksi delimiter (koma atau titik koma)
+        // Deteksi delimiter (koma, titik koma, atau tab)
         $firstLine = fgets($handle);
         rewind($handle);
         if ($bom === "\xEF\xBB\xBF") {
             fread($handle, 3);
         }
-        $delimiter = (substr_count($firstLine, ';') > substr_count($firstLine, ',')) ? ';' : ',';
+        $semiCount = substr_count($firstLine, ';');
+        $commaCount = substr_count($firstLine, ',');
+        $tabCount = substr_count($firstLine, "\t");
+
+        $delimiter = ',';
+        if ($semiCount > $commaCount && $semiCount > $tabCount) {
+            $delimiter = ';';
+        } elseif ($tabCount > $commaCount && $tabCount > $semiCount) {
+            $delimiter = "\t";
+        }
 
         // Baca baris header
         $headerRaw = fgetcsv($handle, 0, $delimiter);
@@ -157,6 +166,19 @@ class ImportService
                 $rawPhone  = isset($colMap['phone']) ? trim($row[$colMap['phone']] ?? '') : null;
                 $rawEmail  = isset($colMap['email']) ? trim($row[$colMap['email']] ?? '') : null;
 
+                // Abaikan baris summary / footer rekapitulasi (misal 'TOTAL', 'Jumlah Siswa', dsb)
+                $combinedCheck = strtoupper($rawNumber . ' ' . $rawName . ' ' . $rawClass);
+                if (
+                    str_contains($combinedCheck, 'TOTAL') ||
+                    str_contains($combinedCheck, 'JUMLAH') ||
+                    str_contains($combinedCheck, 'REKAP') ||
+                    strtolower($rawNumber) === 'kelas' ||
+                    strtolower($rawName) === 'jumlah siswa' ||
+                    strtolower($rawName) === 'jumlah_siswa'
+                ) {
+                    continue;
+                }
+
                 // Format gender ke 'L' atau 'P'
                 if ($rawGender !== null) {
                     if (str_starts_with($rawGender, 'L') || $rawGender === '1' || str_starts_with($rawGender, 'PRIA')) {
@@ -197,6 +219,28 @@ class ImportService
                             ':phone'  => $rawPhone,
                             ':email'  => $rawEmail
                         ]);
+
+                        $existingId = (int)$existing['id'];
+
+                        // Pastikan data dues tersedia
+                        $stmtInsertDues->execute([
+                            ':student_id'  => $existingId,
+                            ':obligation'  => $totalDues,
+                            ':album'       => $albumFee,
+                            ':grad'        => $gradFee,
+                            ':remaining'   => $totalDues
+                        ]);
+
+                        // Pastikan akun login siswa tersedia jika diminta
+                        if ($createAccounts) {
+                            $stmtInsertUser->execute([
+                                ':username'   => $rawNumber,
+                                ':password'   => $defaultPasswordHash,
+                                ':name'       => $rawName,
+                                ':student_id' => $existingId
+                            ]);
+                        }
+
                         $imported++;
                     } else {
                         $errors[] = "Baris $rowNumber: Siswa dengan NIS '$rawNumber' sudah terdaftar di database (Dilewati).";
