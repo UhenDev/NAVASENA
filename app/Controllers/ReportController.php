@@ -57,6 +57,7 @@ class ReportController
 
         $db = Database::getConnection();
 
+        $search        = trim($_GET['q'] ?? '');
         $paymentStatus = trim($_GET['status'] ?? 'all');
         $className     = trim($_GET['class'] ?? 'all');
 
@@ -74,6 +75,13 @@ class ReportController
             WHERE s.status = 'aktif'
         ";
         $params = [];
+
+        if ($search !== '') {
+            $sql .= " AND (s.student_number LIKE :search1 OR s.full_name LIKE :search2 OR s.class_name LIKE :search3)";
+            $params[':search1'] = '%' . $search . '%';
+            $params[':search2'] = '%' . $search . '%';
+            $params[':search3'] = '%' . $search . '%';
+        }
 
         if ($paymentStatus !== '' && $paymentStatus !== 'all') {
             $sql .= " AND d.payment_status = :status";
@@ -107,6 +115,7 @@ class ReportController
             'activeNav'     => 'reports',
             'students'      => $students,
             'classes'       => $classes,
+            'search'        => $search,
             'paymentStatus' => $paymentStatus,
             'className'     => $className,
             'sumObligation' => $sumObligation,

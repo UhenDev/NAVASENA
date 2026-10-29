@@ -42,8 +42,10 @@ class UserController
         }
 
         if ($search !== '') {
-            $sql .= " AND (u.username LIKE :search OR u.full_name LIKE :search OR u.email LIKE :search)";
-            $params[':search'] = '%' . $search . '%';
+            $sql .= " AND (u.username LIKE :search1 OR u.full_name LIKE :search2 OR u.email LIKE :search3)";
+            $params[':search1'] = '%' . $search . '%';
+            $params[':search2'] = '%' . $search . '%';
+            $params[':search3'] = '%' . $search . '%';
         }
 
         $sql .= " ORDER BY CASE u.role WHEN 'ketua' THEN 1 WHEN 'bendahara' THEN 2 ELSE 3 END, u.id ASC";

@@ -22,6 +22,11 @@ use App\Helpers\View;
 
 <!-- Filter Bar -->
 <form method="GET" action="<?= View::url('/reports/students') ?>" class="filter-bar">
+    <div style="flex: 2; min-width: 200px;">
+        <label>Pencarian Siswa</label>
+        <input type="text" name="q" value="<?= View::e($search ?? '') ?>" placeholder="Cari NIS, Nama Siswa, atau Kelas..." class="form-control">
+    </div>
+
     <div style="flex: 1.5; min-width: 180px;">
         <label>Status Pembayaran</label>
         <select name="status" class="form-control">

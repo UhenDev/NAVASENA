@@ -50,8 +50,10 @@ class StudentController
         $params = [];
 
         if ($search !== '') {
-            $sql .= " AND (s.student_number LIKE :search OR s.full_name LIKE :search OR s.class_name LIKE :search)";
-            $params[':search'] = '%' . $search . '%';
+            $sql .= " AND (s.student_number LIKE :search1 OR s.full_name LIKE :search2 OR s.class_name LIKE :search3)";
+            $params[':search1'] = '%' . $search . '%';
+            $params[':search2'] = '%' . $search . '%';
+            $params[':search3'] = '%' . $search . '%';
         }
 
         if ($status !== '' && $status !== 'all') {

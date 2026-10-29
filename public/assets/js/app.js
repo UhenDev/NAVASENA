@@ -98,6 +98,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (studentSelect.value) {
             updateStudentNotice();
         }
+
+        const studentSearchFilter = document.getElementById('studentSearchFilter');
+        if (studentSearchFilter) {
+            studentSearchFilter.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                const options = studentSelect.options;
+                let firstMatch = null;
+
+                for (let i = 1; i < options.length; i++) {
+                    const opt = options[i];
+                    const text = opt.text.toLowerCase();
+                    if (query === '' || text.includes(query)) {
+                        opt.hidden = false;
+                        opt.disabled = false;
+                        if (!firstMatch) firstMatch = opt;
+                    } else {
+                        opt.hidden = true;
+                        opt.disabled = true;
+                    }
+                }
+
+                if (query !== '' && firstMatch) {
+                    studentSelect.value = firstMatch.value;
+                    updateStudentNotice();
+                }
+            });
+        }
     }
 
     // -------------------------------------------------------------
@@ -337,7 +364,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------
-    // 10. Auto Print Trigger on query ?print=1
+    // 10. Instant Live Filter for Data Tables
+    // -------------------------------------------------------------
+    const tableSearchInput = document.querySelector('.filter-bar input[name="q"]');
+    const dataTableBody = document.querySelector('.data-table tbody');
+    if (tableSearchInput && dataTableBody) {
+        tableSearchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            const rows = dataTableBody.querySelectorAll('tr');
+            if (!rows.length) return;
+
+            rows.forEach(row => {
+                if (row.children.length <= 1) return;
+                const text = row.innerText.toLowerCase();
+                row.style.display = (query === '' || text.includes(query)) ? '' : 'none';
+            });
+        });
+    }
+
+    // -------------------------------------------------------------
+    // 11. Auto Print Trigger on query ?print=1
     // -------------------------------------------------------------
     if (window.location.search.includes('print=1')) {
         window.print();

@@ -46,8 +46,11 @@ use App\Helpers\View;
                     <div class="form-group">
                         <label class="form-label" for="studentSelect" style="display: flex; justify-content: space-between;">
                             <span>Pilih Siswa Aktif <span style="color:var(--void-fg)">*</span></span>
-                            <span style="font-size: 0.725rem; color: var(--text-muted); font-weight: normal;">492 Siswa Angkatan</span>
+                            <span style="font-size: 0.725rem; color: var(--text-muted); font-weight: normal;">489 Siswa Angkatan</span>
                         </label>
+                        <div style="position: relative; margin-bottom: 0.5rem;">
+                            <input type="text" id="studentSearchFilter" class="form-control" placeholder="🔍 Ketik nama, NIS, atau kelas untuk memfilter..." style="font-size: 0.85rem; border-color: var(--glass-border-gold);" autocomplete="off">
+                        </div>
                         <select name="student_id" id="studentSelect" class="form-control" required style="font-size: 0.9rem;">
                             <option value="">-- Cari Nama Siswa, NIS, atau Kelas --</option>
                             <?php foreach ($students as $st): ?>
