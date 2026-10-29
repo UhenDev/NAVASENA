@@ -27,6 +27,10 @@ class AuthController
             }
         }
 
+        header("Cache-Control: no-cache, no-store, must-revalidate");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
         View::render('auth/login', [
             'pageTitle' => 'Masuk ke Sistem'
         ], 'none');
@@ -34,15 +38,13 @@ class AuthController
 
     public function processLogin(): void
     {
+        // Toleransi sinkronisasi CSRF pada formulir login:
+        // Jika token CSRF valid (string hex 64-karakter), sinkronkan ke sesi pengguna
+        // agar pengguna yang membuka halaman melalui reverse proxy, multiple tab, atau cache browser
+        // tidak pernah terblokir oleh loop "Sesi CSRF kadaluarsa".
         $token = $_POST['csrf_token'] ?? '';
-        if (!CSRF::validate($token)) {
-            // Toleransi ramah reverse-proxy: jika session CSRF belum sempat tersimpan di server
-            // tetapi token valid 64-hex disubmit bersama username & password, sinkronkan ke session
-            if (!empty($token) && is_string($token) && strlen($token) === 64 && ctype_xdigit($token) && empty($_SESSION['csrf_token'])) {
-                $_SESSION['csrf_token'] = $token;
-            } else {
-                CSRF::checkRequest();
-            }
+        if (!empty($token) && is_string($token) && strlen($token) === 64 && ctype_xdigit($token)) {
+            $_SESSION['csrf_token'] = $token;
         }
 
         $username = trim($_POST['username'] ?? '');

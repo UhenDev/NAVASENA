@@ -30,7 +30,7 @@ use App\Helpers\View;
                 <?= Flash::render() ?>
             </div>
 
-            <form method="POST" action="<?= View::url('/login') ?>">
+            <form method="POST" action="">
                 <?= CSRF::field() ?>
 
                 <div class="form-group">
