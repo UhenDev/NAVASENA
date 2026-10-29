@@ -64,9 +64,18 @@ if [ "$DB_HOST_VAL" = "127.0.0.1" ] || [ "$DB_HOST_VAL" = "localhost" ]; then
         if [ -f "/var/www/html/database/seed.sql" ]; then
             mysql "$DB_NAME_VAL" < /var/www/html/database/seed.sql
         fi
-        echo ">> [NAVASENA] Database schema and master accounts successfully created!"
+        if [ -f "/var/www/html/database/seed_students.sql" ]; then
+            echo ">> [NAVASENA] Importing 489 real students into database..."
+            mysql "$DB_NAME_VAL" < /var/www/html/database/seed_students.sql
+        fi
+        echo ">> [NAVASENA] Database schema, master accounts, and 489 students successfully created!"
     else
         echo ">> [NAVASENA] Database already has $TABLE_COUNT tables. Preserving existing data."
+        STUDENT_COUNT=$(mysql -N -s -e "SELECT COUNT(*) FROM students;" "$DB_NAME_VAL" 2>/dev/null || echo "0")
+        if [ "$STUDENT_COUNT" = "0" ] && [ -f "/var/www/html/database/seed_students.sql" ]; then
+            echo ">> [NAVASENA] No students found in database. Automatically seeding 489 real students..."
+            mysql "$DB_NAME_VAL" < /var/www/html/database/seed_students.sql || true
+        fi
     fi
 
 else
@@ -110,7 +119,20 @@ else
                 \$seed = preg_replace('/USE [^;]+;/i', '', \$seed);
                 \$pdo->exec(\$seed);
             }
-            echo \">> [NAVASENA] Remote schema initialized successfully!\n\";
+            if (file_exists('/var/www/html/database/seed_students.sql')) {
+                \$seedStudents = file_get_contents('/var/www/html/database/seed_students.sql');
+                \$seedStudents = preg_replace('/USE [^;]+;/i', '', \$seedStudents);
+                \$pdo->exec(\$seedStudents);
+            }
+            echo \">> [NAVASENA] Remote schema and 489 students initialized successfully!\n\";
+        } else {
+            \$count = \$pdo->query(\"SELECT COUNT(*) FROM students\")->fetchColumn();
+            if ((int)\$count === 0 && file_exists('/var/www/html/database/seed_students.sql')) {
+                echo \">> [NAVASENA] Seeding 489 real students into existing remote database...\n\";
+                \$seedStudents = file_get_contents('/var/www/html/database/seed_students.sql');
+                \$seedStudents = preg_replace('/USE [^;]+;/i', '', \$seedStudents);
+                \$pdo->exec(\$seedStudents);
+            }
         }
     }
     " || true
