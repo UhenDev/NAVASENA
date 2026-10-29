@@ -51,9 +51,12 @@ class View
     public static function url(string $path = ''): string
     {
         $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $baseUrl = rtrim($config['base_url'], '/');
+        $baseDir = $config['base_dir'] ?? '';
         $cleanPath = '/' . ltrim($path, '/');
-        return $baseUrl . $cleanPath;
+        if (empty($baseDir) || $baseDir === '/') {
+            return $cleanPath;
+        }
+        return rtrim($baseDir, '/') . $cleanPath;
     }
 
     public static function e(?string $string): string

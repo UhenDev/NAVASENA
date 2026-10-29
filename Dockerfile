@@ -55,7 +55,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # 6. Ensure Storage & MariaDB Permissions
-RUN mkdir -p /var/lib/mysql /var/run/mysqld /var/www/html/storage/logs /var/www/html/storage/exports \
+RUN mkdir -p /var/lib/mysql /var/run/mysqld /var/www/html/storage/logs /var/www/html/storage/exports /var/www/html/storage/sessions \
     && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
     && chmod -R 755 /var/lib/mysql /var/run/mysqld \
     && chown -R www-data:www-data /var/www/html/storage \

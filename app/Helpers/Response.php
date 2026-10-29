@@ -11,21 +11,25 @@ class Response
     public static function redirect(string $path): void
     {
         $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $baseUrl = $config['base_url'];
+        $baseDir = $config['base_dir'] ?? '';
 
-        // If path does not start with http/https, prepend baseUrl
+        // If path does not start with http/https, prepend baseDir if needed
         if (!preg_match('/^https?:\/\//i', $path)) {
-            $path = '/' . ltrim($path, '/');
-            $fullUrl = $baseUrl . $path;
+            $cleanPath = '/' . ltrim($path, '/');
+            if (!empty($baseDir) && !str_starts_with($cleanPath, $baseDir)) {
+                $targetUrl = $baseDir . $cleanPath;
+            } else {
+                $targetUrl = $cleanPath;
+            }
         } else {
-            $fullUrl = $path;
+            $targetUrl = $path;
         }
 
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_write_close();
         }
 
-        header("Location: " . $fullUrl);
+        header("Location: " . $targetUrl);
         exit;
     }
 

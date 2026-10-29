@@ -10,7 +10,7 @@ set -e
 echo ">> [NAVASENA] Starting container entrypoint initialization..."
 
 # 1. Ensure storage permissions
-mkdir -p /var/www/html/storage/logs /var/www/html/storage/exports
+mkdir -p /var/www/html/storage/logs /var/www/html/storage/exports /var/www/html/storage/sessions
 chown -R www-data:www-data /var/www/html/storage
 chmod -R 775 /var/www/html/storage
 

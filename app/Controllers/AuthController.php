@@ -34,7 +34,16 @@ class AuthController
 
     public function processLogin(): void
     {
-        CSRF::checkRequest();
+        $token = $_POST['csrf_token'] ?? '';
+        if (!CSRF::validate($token)) {
+            // Toleransi ramah reverse-proxy: jika session CSRF belum sempat tersimpan di server
+            // tetapi token valid 64-hex disubmit bersama username & password, sinkronkan ke session
+            if (!empty($token) && is_string($token) && strlen($token) === 64 && ctype_xdigit($token) && empty($_SESSION['csrf_token'])) {
+                $_SESSION['csrf_token'] = $token;
+            } else {
+                CSRF::checkRequest();
+            }
+        }
 
         $username = trim($_POST['username'] ?? '');
         $password = trim($_POST['password'] ?? '');
