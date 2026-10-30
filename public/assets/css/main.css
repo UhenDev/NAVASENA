@@ -1661,6 +1661,145 @@ input[type="password"]::-ms-clear {
   }
 }
 
+/* ==========================================================================
+   Responsive Payment Page Components (.payment-receipt-banner & .btn-submit-payment)
+   ========================================================================== */
+.payment-form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.payment-receipt-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  background: rgba(11, 16, 29, 0.75);
+  padding: 1.15rem 1.35rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  margin-bottom: 1.75rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.receipt-banner-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.receipt-banner-label {
+  font-size: 0.725rem;
+  color: var(--gold-text);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+}
+
+.payment-receipt-banner .receipt-code {
+  font-family: var(--font-mono);
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+  font-weight: 800;
+  color: var(--gold-solid);
+  margin-top: 2px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.receipt-banner-status {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.receipt-banner-status .status-pill {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  padding: 0.35rem 0.75rem;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.receipt-banner-sub {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  line-height: 1.35;
+}
+
+.student-remaining-notice {
+  margin-top: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: rgba(223, 178, 86, 0.08);
+  border: 1px solid var(--glass-border-gold);
+  font-size: 0.8rem;
+  color: var(--gold-text);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
+/* Submit Payment Button */
+.btn-submit-payment {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.25rem !important;
+  padding: 1rem 1.25rem !important;
+  min-height: 56px;
+  background: var(--gold-gradient) !important;
+  color: #070A12 !important;
+  border: none !important;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 20px rgba(223, 178, 86, 0.35);
+  cursor: pointer;
+  text-align: center !important;
+  white-space: normal !important; /* Critical: allows multi-line text without overflow */
+  word-break: normal;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 1.5rem;
+}
+
+.btn-submit-payment:hover {
+  background: var(--gold-gradient-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(223, 178, 86, 0.45);
+}
+
+.btn-submit-main {
+  font-family: var(--font-sans);
+  font-size: clamp(0.925rem, 3.8vw, 1.05rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.btn-submit-sub {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+  line-height: 1.2;
+  text-align: center;
+}
+
 /* Executive Official Receipt Layout (Screen Presentation) */
 .screen-receipt-wrapper {
   max-width: 820px;
@@ -2187,6 +2326,73 @@ input[type="password"]::-ms-clear {
     font-size: 0.775rem;
     text-transform: uppercase;
   }
+
+  /* Payment Page Responsive */
+  .payment-receipt-banner {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.85rem !important;
+    padding: 1rem 1.15rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .receipt-banner-info {
+    width: 100% !important;
+  }
+
+  .receipt-banner-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+  }
+
+  .payment-receipt-banner .receipt-code {
+    font-size: clamp(1.2rem, 5.5vw, 1.45rem);
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+    margin-top: 4px;
+    width: 100%;
+  }
+
+  .receipt-banner-status {
+    width: 100% !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .receipt-banner-status .status-pill {
+    max-width: 100% !important;
+    white-space: normal !important;
+    text-align: left !important;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .receipt-banner-sub {
+    font-size: 0.7rem;
+    margin-top: 0.45rem;
+    line-height: 1.35;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .btn-submit-payment {
+    padding: 0.9rem 0.75rem !important;
+    min-height: 52px;
+  }
+
+  .btn-submit-main {
+    font-size: clamp(0.875rem, 4vw, 0.98rem);
+    letter-spacing: 0.03em;
+  }
+
+  .btn-submit-sub {
+    font-size: 0.68rem;
+  }
 }
 
 /* 4. Small Mobile Phones (max-width: 480px) */
@@ -2300,5 +2506,25 @@ input[type="password"]::-ms-clear {
 
   .metric-value {
     font-size: 1.25rem;
+  }
+
+  .payment-receipt-banner {
+    padding: 0.85rem 0.75rem !important;
+  }
+
+  .payment-receipt-banner .receipt-code {
+    font-size: 1.15rem;
+  }
+
+  .btn-submit-payment {
+    padding: 0.8rem 0.5rem !important;
+  }
+
+  .btn-submit-main {
+    font-size: 0.825rem;
+  }
+
+  .btn-submit-sub {
+    font-size: 0.65rem;
   }
 }
