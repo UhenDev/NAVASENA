@@ -1308,6 +1308,35 @@ select.form-control option {
   line-height: 1.5;
 }
 
+/* Password Toggle Eye Button */
+.password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+  z-index: 2;
+  border-radius: var(--radius-sm);
+}
+
+.password-toggle-btn:hover {
+  color: var(--gold-solid);
+}
+
+.password-toggle-btn:focus-visible {
+  outline: 2px solid var(--gold-solid);
+  outline-offset: 2px;
+}
+
 /* Portal Mandiri Siswa Hero & Installments */
 .portal-hero-card {
   background: linear-gradient(135deg, rgba(15, 22, 38, 0.9) 0%, rgba(20, 30, 52, 0.85) 100%);

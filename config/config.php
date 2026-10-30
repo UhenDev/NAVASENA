@@ -19,6 +19,8 @@ if (session_status() === PHP_SESSION_NONE) {
     }
 
     // secure = false memastikan cookie TIDAK diabaikan/di-drop browser baik saat diakses via HTTP maupun HTTPS
+    @ini_set('session.gc_maxlifetime', '2592000'); // 30 hari
+    @ini_set('session.cookie_lifetime', '2592000');
     session_set_cookie_params([
         'lifetime' => 86400 * 30, // 30 hari
         'path'     => '/',
