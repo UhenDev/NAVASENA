@@ -62,9 +62,12 @@ RUN mkdir -p /var/lib/mysql /var/run/mysqld /var/www/html/storage/logs /var/www/
     && chmod -R 775 /var/www/html/storage \
     && chmod +x /var/www/html/docker-entrypoint.sh
 
-# 7. Expose Port 80
+# 7. Define Persistent Volumes for MariaDB Database & Storage
+VOLUME ["/var/lib/mysql", "/var/www/html/storage"]
+
+# 8. Expose Port 80
 EXPOSE 80
 
-# 8. Entrypoint & Default Command
+# 9. Entrypoint & Default Command
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
