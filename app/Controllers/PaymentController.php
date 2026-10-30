@@ -215,13 +215,14 @@ class PaymentController
             // Generate nomor kuitansi unik yang terjamin unik
             $receiptNumber = self::generateReceiptNumber();
 
+            // Transaksi pembayaran langsung sah (terverifikasi) tanpa antrean verifikasi terpisah
             $stmtInsert = $db->prepare("
                 INSERT INTO payments (
                     receipt_number, student_id, amount, payment_method, payment_date, 
-                    reference_note, status, recorded_by, created_at
+                    reference_note, status, recorded_by, verified_by, verified_at, created_at
                 ) VALUES (
                     :receipt, :student_id, :amount, :method, :pay_date,
-                    :ref_note, 'menunggu_verifikasi', :recorded_by, NOW()
+                    :ref_note, 'terverifikasi', :recorded_by, :verified_by, NOW(), NOW()
                 )
             ");
             $stmtInsert->execute([
@@ -231,12 +232,35 @@ class PaymentController
                 ':method'      => $paymentMethod,
                 ':pay_date'    => $paymentDate,
                 ':ref_note'    => $referenceNote ?: null,
-                ':recorded_by' => Auth::id()
+                ':recorded_by' => Auth::id(),
+                ':verified_by' => Auth::id()
             ]);
             $paymentId = (int)$db->lastInsertId();
 
             // Simpan alokasi cicilan
             AllocationService::saveAllocations($paymentId, $allocations);
+
+            // Langsung catat ke Buku Kas (cash_transactions)
+            $description = "Penerimaan Iuran Siswa [" . $student['student_number'] . "] " . $student['full_name'] . " (" . $receiptNumber . ")";
+            $stmtCash = $db->prepare("
+                INSERT INTO cash_transactions (
+                    transaction_type, category, amount, transaction_date, 
+                    description, payment_id, recorded_by, is_cancelled, created_at
+                ) VALUES (
+                    'masuk', 'Iuran Siswa', :amount, :date,
+                    :desc, :payment_id, :recorded_by, 0, NOW()
+                )
+            ");
+            $stmtCash->execute([
+                ':amount'      => $amount,
+                ':date'        => $paymentDate,
+                ':desc'        => $description,
+                ':payment_id'  => $paymentId,
+                ':recorded_by' => Auth::id()
+            ]);
+
+            // Sinkronisasi status cicilan dan saldo kewajiban siswa
+            CalculationService::recalculateStudentDues($studentId);
 
             Database::commit();
 
@@ -244,10 +268,10 @@ class PaymentController
                 'PAYMENT_RECORD',
                 'payment',
                 (string)$paymentId,
-                "Pembayaran dicatat: $receiptNumber sejumlah " . View::formatRupiah($amount) . " untuk siswa {$student['full_name']} ({$student['student_number']}). Status: Menunggu Verifikasi."
+                "Pembayaran langsung sah: $receiptNumber sejumlah " . View::formatRupiah($amount) . " untuk siswa {$student['full_name']} ({$student['student_number']}). Kas masuk tercatat otomatis."
             );
 
-            Flash::setSuccess("Pembayaran dengan kuitansi $receiptNumber (" . View::formatRupiah($amount) . ") berhasil dicatat dan sedang menunggu verifikasi.", "Pencatatan Pembayaran");
+            Flash::setSuccess("Pembayaran kuitansi $receiptNumber (" . View::formatRupiah($amount) . ") untuk {$student['full_name']} berhasil dibayar dan langsung tercatat sah dalam kas.", "Pembayaran Berhasil");
             Response::redirect('/payments/' . $paymentId);
         } catch (Exception $e) {
             Database::rollBack();

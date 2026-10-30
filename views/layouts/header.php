@@ -51,7 +51,7 @@ $user = Auth::user();
 
             <a href="<?= View::url('/payments') ?>" class="nav-item <?= $activeNav === 'payments' ? 'active' : '' ?>">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                <span>Verifikasi Pembayaran</span>
+                <span>Kuitansi &amp; Pembayaran</span>
                 <?php if (isset($pendingCount) && $pendingCount > 0): ?>
                     <span class="nav-badge"><?= (int)$pendingCount ?></span>
                 <?php endif; ?>

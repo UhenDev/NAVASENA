@@ -34,7 +34,7 @@ use App\Helpers\View;
 
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
             <tr style="border-bottom: 1px solid var(--glass-border);">
-                <td style="padding: 0.75rem 0; color: var(--text-muted); width: 140px;">No. Kuitansi</td>
+                <td style="padding: 0.75rem 0; color: var(--text-muted); width: 115px;">No. Kuitansi</td>
                 <td style="padding: 0.75rem 0; font-family: var(--font-mono); font-weight: 700; color: var(--gold-solid);"><?= View::e($payment['receipt_number']) ?></td>
             </tr>
             <tr style="border-bottom: 1px solid var(--glass-border);">
@@ -79,7 +79,7 @@ use App\Helpers\View;
 
         <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
             <tr style="border-bottom: 1px solid var(--glass-border);">
-                <td style="padding: 0.75rem 0; color: var(--text-muted); width: 140px;">Dicatat Oleh</td>
+                <td style="padding: 0.75rem 0; color: var(--text-muted); width: 115px;">Dicatat Oleh</td>
                 <td style="padding: 0.75rem 0;">
                     <strong style="color: #FFFFFF;"><?= View::e($payment['recorder_name']) ?></strong> 
                     <span style="font-size: 0.75rem; color: var(--gold-text);">(<?= ucfirst($payment['recorder_role']) ?>)</span>

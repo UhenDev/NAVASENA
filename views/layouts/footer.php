@@ -17,10 +17,6 @@ use App\Helpers\View;
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
         <span>Siswa</span>
     </a>
-    <a href="<?= View::url('/payments/create') ?>" class="dock-item <?= ($activeNav ?? '') === 'payments_create' ? 'active' : '' ?>">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        <span>Bayar</span>
-    </a>
     <a href="<?= View::url('/payments') ?>" class="dock-item <?= ($activeNav ?? '') === 'payments' ? 'active' : '' ?>">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         <span>Kuitansi</span>

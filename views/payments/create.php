@@ -28,9 +28,9 @@ use App\Helpers\View;
                 </div>
             </div>
             <div style="text-align: right;">
-                <span class="status-pill status-pending" style="font-size: 0.7rem;">STATUS AWAL: MENUNGGU VERIFIKASI</span>
+                <span class="status-pill status-verified" style="font-size: 0.7rem;">STATUS: LANGSUNG SAH &amp; MASUK KAS</span>
                 <div style="font-size: 0.725rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono);">
-                    Audit Reversal aktif jika terjadi koreksi catat
+                    Audit Reversal aktif jika terjadi pembatalan
                 </div>
             </div>
         </div>
@@ -83,6 +83,30 @@ use App\Helpers\View;
                             <button type="button" class="chip-btn" data-value="150000">Rp 150.000</button>
                             <button type="button" class="chip-btn" id="chipPayFull" data-value="250000" style="border-color: var(--gold-solid); font-weight: 800; color: var(--gold-solid);">Pelunasan Sisa</button>
                         </div>
+
+                        <!-- Keypad Input di bawah kolom nominal untuk perangkat ponsel/mobile -->
+                        <div class="keypad-wrapper-box" style="margin-top: 1rem; background: rgba(11, 16, 29, 0.65); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 0.85rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 700; color: var(--gold-text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Keypad Angka Cepat (Ponsel)</span>
+                                <button type="button" class="btn btn-secondary btn-sm" id="toggleKeypadBtn" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="var kp = document.getElementById('glassKeypadGrid'); kp.style.display = (kp.style.display === 'none') ? 'grid' : 'none';">
+                                    Buka / Tutup
+                                </button>
+                            </div>
+                            <div class="glass-keypad" id="glassKeypadGrid">
+                                <button type="button" class="keypad-btn" data-key="1">1</button>
+                                <button type="button" class="keypad-btn" data-key="2">2</button>
+                                <button type="button" class="keypad-btn" data-key="3">3</button>
+                                <button type="button" class="keypad-btn" data-key="4">4</button>
+                                <button type="button" class="keypad-btn" data-key="5">5</button>
+                                <button type="button" class="keypad-btn" data-key="6">6</button>
+                                <button type="button" class="keypad-btn" data-key="7">7</button>
+                                <button type="button" class="keypad-btn" data-key="8">8</button>
+                                <button type="button" class="keypad-btn" data-key="9">9</button>
+                                <button type="button" class="keypad-btn" data-key="000">000</button>
+                                <button type="button" class="keypad-btn" data-key="0">0</button>
+                                <button type="button" class="keypad-btn" data-key="backspace" style="color: var(--void-fg);">⌫</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -122,70 +146,9 @@ use App\Helpers\View;
                 </div>
             </div>
 
-            <!-- 6. Tactile Glass Keypad (Responsive Mobile / Toggleable) -->
-            <div class="card" style="background: rgba(11, 16, 29, 0.5); border-color: var(--glass-border); padding: 1.25rem; margin-bottom: 1.5rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                    <div>
-                        <span style="font-weight: 700; color: #FFFFFF; font-size: 0.9rem;">Keypad Input Sentuh (Tactile Glass)</span>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">Mendukung penginputan cepat jari di layar sentuh mobile</div>
-                    </div>
-                    <button type="button" class="btn btn-secondary btn-sm" id="toggleKeypadBtn" onclick="var kp = document.getElementById('glassKeypadGrid'); kp.style.display = (kp.style.display === 'none') ? 'grid' : 'none';">
-                        Buka / Tutup Keypad
-                    </button>
-                </div>
-
-                <div class="glass-keypad" id="glassKeypadGrid">
-                    <button type="button" class="keypad-btn" data-key="1">1</button>
-                    <button type="button" class="keypad-btn" data-key="2">2</button>
-                    <button type="button" class="keypad-btn" data-key="3">3</button>
-                    <button type="button" class="keypad-btn" data-key="4">4</button>
-                    <button type="button" class="keypad-btn" data-key="5">5</button>
-                    <button type="button" class="keypad-btn" data-key="6">6</button>
-                    <button type="button" class="keypad-btn" data-key="7">7</button>
-                    <button type="button" class="keypad-btn" data-key="8">8</button>
-                    <button type="button" class="keypad-btn" data-key="9">9</button>
-                    <button type="button" class="keypad-btn" data-key="000">000</button>
-                    <button type="button" class="keypad-btn" data-key="0">0</button>
-                    <button type="button" class="keypad-btn" data-key="backspace" style="color: var(--void-fg);">⌫</button>
-                </div>
-            </div>
-
-            <!-- 7. Opsi Alokasi Cicilan 3 Tahap -->
-            <div class="card" style="background: rgba(11, 16, 29, 0.6); border-color: var(--glass-border); margin-bottom: 1.75rem; padding: 1.25rem;">
-                <div style="font-weight: 700; color: var(--gold-text); margin-bottom: 0.35rem; font-size: 0.95rem;">
-                    Mode Alokasi Cicilan Resmi (0 Drift Engine)
-                </div>
-                <p style="font-size: 0.775rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-                    Sistem mendistribusikan pembayaran secara otomatis: Tahap 1 (DP Rp100.000) &rarr; Tahap 2 (Rp100.000) &rarr; Tahap 3 (Pelunasan Rp50.000).
-                </p>
-
-                <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                    <label style="display:flex; align-items:center; gap:0.65rem; font-size:0.875rem; cursor:pointer;">
-                        <input type="radio" name="allocation_type" value="auto" checked id="allocAutoRadio" onchange="toggleAllocMode()" style="accent-color: var(--gold-solid);">
-                        <span style="color: #FFFFFF;"><strong>Alokasi Otomatis (Direkomendasikan)</strong> &mdash; Mencegah kesalahan drift nominal.</span>
-                    </label>
-
-                    <label style="display:flex; align-items:center; gap:0.65rem; font-size:0.875rem; cursor:pointer;">
-                        <input type="radio" name="allocation_type" value="custom" id="allocCustomRadio" onchange="toggleAllocMode()" style="accent-color: var(--gold-solid);">
-                        <span style="color: var(--text-secondary);"><strong>Alokasi Khusus Manual</strong> &mdash; Tentukan pembagian tahap secara spesifik.</span>
-                    </label>
-                </div>
-
-                <div id="customAllocInputs" style="display:none; padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--glass-border);">
-                    <div class="form-row">
-                        <?php foreach ($stages as $stg): ?>
-                            <div class="form-group">
-                                <label class="form-label" style="font-size:0.775rem;">Tahap <?= $stg['stage_number'] ?>: <?= View::e($stg['stage_name']) ?></label>
-                                <input type="text" name="custom_allocations[<?= $stg['stage_number'] ?>]" class="form-control input-rupiah tabular-nums" placeholder="0">
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; letter-spacing: 0.06em; font-size: 1.05rem; padding: 1rem; box-shadow: 0 4px 20px rgba(223, 178, 86, 0.35);">
-                + SIMPAN &amp; AJUKAN VERIFIKASI PEMBAYARAN
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; letter-spacing: 0.06em; font-size: 1.05rem; padding: 1rem; box-shadow: 0 4px 20px rgba(223, 178, 86, 0.35); font-weight: 800;">
+                + SIMPAN &amp; BAYAR SEKARANG (LANGSUNG SAH)
             </button>
         </form>
     </div>

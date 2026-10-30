@@ -1598,8 +1598,17 @@ select.form-control option {
 }
 
 @media (min-width: 769px) {
-  #glassKeypadGrid {
+  .keypad-wrapper-box {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .keypad-wrapper-box {
+    display: block;
+  }
+  #glassKeypadGrid {
+    display: grid !important;
   }
 }
 
