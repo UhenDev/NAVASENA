@@ -35,7 +35,7 @@ use App\Helpers\View;
             </div>
         </div>
 
-        <form method="POST" action="<?= View::url('/payments/create') ?>" id="paymentForm">
+        <form method="POST" action="<?= View::url('/payments/create') ?>" id="paymentForm" onsubmit="return confirm('Apakah Anda yakin data pembayaran sudah benar dan ingin menyimpannya sekarang? (Pembayaran langsung sah dan masuk buku kas)');">
             <?= CSRF::field() ?>
 
             <!-- Grid 2 Kolom Input Transaksi -->

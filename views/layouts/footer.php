@@ -34,7 +34,7 @@ use App\Helpers\View;
             <h3 class="modal-title">Tolak Transaksi Pembayaran</h3>
             <button type="button" class="modal-close" onclick="closeModal('rejectPaymentModal')">&times;</button>
         </div>
-        <form method="POST" action="">
+        <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin menolak transaksi pembayaran ini?');">
             <?= CSRF::field() ?>
             <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
                 Anda akan menolak pembayaran <strong class="modal-target-name" style="color:var(--void-fg);"></strong>. Transaksi ini tidak akan dihitung sebagai penerimaan sah.
@@ -58,7 +58,7 @@ use App\Helpers\View;
             <h3 class="modal-title">Batalkan Transaksi (Audit Reversal)</h3>
             <button type="button" class="modal-close" onclick="closeModal('cancelTransactionModal')">&times;</button>
         </div>
-        <form method="POST" action="">
+        <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan transaksi ini (Audit Reversal)? Tindakan ini akan memotong saldo kas.');">
             <?= CSRF::field() ?>
             <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
                 Transaksi <strong class="modal-target-name" style="color:var(--gold-solid);"></strong> akan dibatalkan (VOID). Catatan kas dan status iuran siswa akan disesuaikan otomatis dengan jejak audit reversal.
@@ -75,6 +75,6 @@ use App\Helpers\View;
     </div>
 </div>
 
-<script src="<?= View::url('/assets/js/app.js') ?>"></script>
+<script src="<?= View::url('/assets/js/app.js') ?>?v=<?= time() ?>"></script>
 </body>
 </html>

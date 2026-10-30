@@ -20,7 +20,7 @@ use App\Helpers\View;
     <div class="card" style="border-color: var(--glass-border-gold); position: relative; overflow: hidden;">
         <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold-gradient);"></div>
 
-        <form method="POST" action="<?= View::url('/students/create') ?>">
+        <form method="POST" action="<?= View::url('/students/create') ?>" onsubmit="return confirm('Apakah Anda yakin data siswa baru yang dimasukkan sudah benar?');">
             <?= CSRF::field() ?>
 
             <div class="form-row">

@@ -20,12 +20,12 @@ use App\Helpers\View;
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>Akun</span>
     </a>
-    <a href="<?= View::url('/logout') ?>" class="dock-item" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+    <a href="<?= View::url('/logout') ?>" class="dock-item" onclick="return confirm('Apakah Anda yakin ingin keluar dari sistem Guardian of Navasena 27?')">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         <span>Keluar</span>
     </a>
 </nav>
 
-<script src="<?= View::url('/assets/js/app.js') ?>"></script>
+<script src="<?= View::url('/assets/js/app.js') ?>?v=<?= time() ?>"></script>
 </body>
 </html>

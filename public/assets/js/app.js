@@ -430,4 +430,42 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.search.includes('print=1')) {
         window.print();
     }
+
+    // -------------------------------------------------------------
+    // 12. Universal Password Visibility Toggle (Inside Input Field)
+    // -------------------------------------------------------------
+    document.querySelectorAll('.password-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const container = btn.closest('.password-field-container') || btn.parentElement;
+            const input = container ? container.querySelector('input') : null;
+            if (!input) return;
+
+            const isPassword = input.getAttribute('type') === 'password';
+            input.setAttribute('type', isPassword ? 'text' : 'password');
+
+            const eyeOpen = btn.querySelector('.eye-icon-open') || btn.querySelector('#eyeIconOpen');
+            const eyeClose = btn.querySelector('.eye-icon-close') || btn.querySelector('#eyeIconClose');
+            if (eyeOpen && eyeClose) {
+                eyeOpen.style.display = isPassword ? 'none' : 'block';
+                eyeClose.style.display = isPassword ? 'block' : 'none';
+            }
+            btn.style.color = isPassword ? '#dfb256' : '#94a3b8';
+            btn.setAttribute('title', isPassword ? 'Sembunyikan kata sandi' : 'Lihat kata sandi');
+            input.focus();
+        });
+    });
+
+    // -------------------------------------------------------------
+    // 13. Global Logout Confirmation Interceptor
+    // -------------------------------------------------------------
+    document.querySelectorAll('a[href*="/logout"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (!confirm('Apakah Anda yakin ingin keluar dari sistem Guardian of Navasena 27?')) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+    });
 });

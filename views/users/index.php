@@ -133,7 +133,7 @@ use App\Helpers\View;
             <h3 class="modal-title" style="font-family: var(--font-display); color: var(--gold-text); font-size: 1.1rem;">Reset Kata Sandi Pengguna</h3>
             <button type="button" class="modal-close" onclick="closeModal('resetPasswordModal')" style="color: var(--text-muted);">&times;</button>
         </div>
-        <form method="POST" action="">
+        <form method="POST" action="" onsubmit="return confirm('Apakah Anda yakin ingin menyetel ulang kata sandi pengguna ini?');">
             <?= CSRF::field() ?>
             <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
                 Setel ulang kata sandi baru untuk akun <strong class="modal-target-name" style="color: var(--gold-solid);"></strong>.

@@ -1308,10 +1308,23 @@ select.form-control option {
   line-height: 1.5;
 }
 
-/* Password Toggle Eye Button */
+/* Password Toggle Eye Button & Field Container */
+.password-field-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-field-container .form-control {
+  width: 100%;
+  padding-right: 3rem !important;
+  box-sizing: border-box;
+}
+
 .password-toggle-btn {
   position: absolute;
-  right: 0.75rem;
+  right: 0.85rem;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
@@ -1319,13 +1332,14 @@ select.form-control option {
   color: var(--text-muted);
   cursor: pointer;
   padding: 0.35rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
   line-height: 1;
-  z-index: 2;
+  z-index: 10;
   border-radius: var(--radius-sm);
+  outline: none;
 }
 
 .password-toggle-btn:hover {
@@ -1335,6 +1349,12 @@ select.form-control option {
 .password-toggle-btn:focus-visible {
   outline: 2px solid var(--gold-solid);
   outline-offset: 2px;
+}
+
+/* Suppress vendor default reveal icon (Edge / IE) */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
 }
 
 /* Portal Mandiri Siswa Hero & Installments */

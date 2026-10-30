@@ -15,7 +15,7 @@ $user = Auth::user();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="<?= View::url('/assets/img/logo.png') ?>">
-    <link rel="stylesheet" href="<?= View::url('/assets/css/main.css') ?>">
+    <link rel="stylesheet" href="<?= View::url('/assets/css/main.css') ?>?v=<?= time() ?>">
     <link rel="stylesheet" href="<?= View::url('/assets/css/print.css') ?>" media="print">
     <style>
         .portal-header-bar {
@@ -71,7 +71,7 @@ $user = Auth::user();
             <?= View::e($user['username'] ?? '') ?>
         </span>
         <a href="<?= View::url('/change-password') ?>" class="btn btn-secondary btn-sm">Ganti Password</a>
-        <a href="<?= View::url('/logout') ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin keluar?')">Keluar</a>
+        <a href="<?= View::url('/logout') ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin keluar dari sistem Guardian of Navasena 27?')">Keluar</a>
     </div>
 </header>
 
