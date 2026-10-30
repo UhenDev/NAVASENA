@@ -6,6 +6,8 @@ storage/logs/*.log
 !storage/logs/.gitkeep
 storage/exports/*
 !storage/exports/.gitkeep
+storage/sessions/*
+!storage/sessions/.gitkeep
 test_cookie.txt
 
 # Editor & OS files
