@@ -7,8 +7,8 @@ use App\Helpers\View;
     </div>
 </div>
 
-<!-- Floating Frosted Glass Bottom Navigation Dock for Mobile View -->
-<nav class="mobile-dock" aria-label="Navigasi Cepat Mobile">
+<!-- Fixed Frosted Glass Bottom Navigation Bar for Mobile View -->
+<nav class="mobile-dock mobile-bottom-nav" aria-label="Navigasi Cepat Mobile">
     <a href="<?= View::url('/dashboard') ?>" class="dock-item <?= ($activeNav ?? '') === 'dashboard' ? 'active' : '' ?>">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span>Beranda</span>

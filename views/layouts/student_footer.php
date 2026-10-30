@@ -10,8 +10,8 @@ use App\Helpers\View;
     </footer>
 </div>
 
-<!-- Floating Frosted Glass Bottom Navigation Dock for Student Mobile View -->
-<nav class="mobile-dock" aria-label="Navigasi Siswa">
+<!-- Fixed Frosted Glass Bottom Navigation Bar for Student Mobile View -->
+<nav class="mobile-dock mobile-bottom-nav" aria-label="Navigasi Siswa">
     <a href="<?= View::url('/portal') ?>" class="dock-item active">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span>Tagihan</span>
