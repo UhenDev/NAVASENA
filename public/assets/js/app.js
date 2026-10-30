@@ -9,18 +9,60 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Mobile Sidebar & Backdrop Drawer
     // -------------------------------------------------------------
     const toggleBtn = document.getElementById('menuToggleBtn');
+    const closeBtn = document.getElementById('sidebarCloseBtn');
     const sidebar = document.querySelector('.app-sidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
 
-    if (toggleBtn && sidebar && backdrop) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-            backdrop.classList.toggle('show');
-        });
+    function openSidebar() {
+        if (sidebar && backdrop) {
+            sidebar.classList.add('show');
+            backdrop.classList.add('show');
+            document.body.classList.add('sidebar-open');
+        }
+    }
 
-        backdrop.addEventListener('click', () => {
+    function closeSidebar() {
+        if (sidebar && backdrop) {
             sidebar.classList.remove('show');
             backdrop.classList.remove('show');
+            document.body.classList.remove('sidebar-open');
+        }
+    }
+
+    if (toggleBtn && sidebar && backdrop) {
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (sidebar.classList.contains('show')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeSidebar();
+            });
+        }
+
+        backdrop.addEventListener('click', closeSidebar);
+
+        // Tutup drawer otomatis ketika salah satu nav-item diklik (pada mobile/tablet)
+        const navItems = sidebar.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    closeSidebar();
+                }
+            });
+        });
+
+        // Tutup drawer jika tombol ESC ditekan
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar.classList.contains('show')) {
+                closeSidebar();
+            }
         });
     }
 

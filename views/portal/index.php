@@ -73,7 +73,7 @@ use App\Helpers\View;
         <span class="status-pill status-verified" style="font-size:0.7rem;">ALOKASI OTOMATIS</span>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+    <div class="responsive-grid-3">
         <?php foreach ($stages as $idx => $stg): ?>
             <?php 
                 $isLunas = ((float)$stg['remaining_amount'] <= 0 && (float)$stg['paid_amount'] >= (float)$stg['target_amount']);

@@ -41,7 +41,7 @@ use App\Helpers\View;
     </div>
 
     <!-- Donut Section: Chart on left, Details on right -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: center; padding: 0.5rem 0 1.5rem 0;">
+    <div class="responsive-grid-2" style="gap: 2rem; align-items: center; padding: 0.5rem 0 1.5rem 0;">
         <!-- Donut Chart with Center Owl Crest -->
         <div style="display: flex; justify-content: center; align-items: center;">
             <div class="donut-wrapper" style="margin: 0; width: 230px; height: 230px;">
@@ -116,7 +116,7 @@ use App\Helpers\View;
 </div>
 
 <!-- 2. Menu Akses Laporan Spesifik -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+<div class="responsive-grid-4">
     <!-- Card Laporan Siswa -->
     <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; border-color: var(--glass-border);">
         <div>

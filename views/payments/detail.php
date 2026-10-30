@@ -24,7 +24,7 @@ use App\Helpers\View;
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+<div class="responsive-grid-2" style="margin-bottom: 1.5rem;">
     <!-- Informasi Pembayaran -->
     <div class="card" style="margin-bottom: 0; border-color: var(--glass-border);">
         <div class="card-header" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 1rem;">

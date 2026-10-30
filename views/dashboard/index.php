@@ -81,7 +81,7 @@ use App\Helpers\Auth;
 </div>
 
 <!-- 2. Two-Column Main Executive Grid: Realisasi Bar Chart vs Verifikasi & Audit Logs -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 1.75rem;">
+<div class="dashboard-main-grid">
     <!-- Left Card: Realisasi Penerimaan Kas Angkatan (2026-2027) Chart -->
     <div class="card" style="margin-bottom: 0; border-color: var(--glass-border);">
         <div class="card-header" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 0.85rem; margin-bottom: 1rem;">
@@ -234,7 +234,7 @@ use App\Helpers\Auth;
 </div>
 
 <!-- 3. Tahapan Cicilan Resmi & Status Siswa 492 -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+<div class="dashboard-sub-grid">
     <!-- 3 Tahap Cicilan Angkatan -->
     <div class="card" style="border-color: var(--glass-border);">
         <div class="card-header" style="border-bottom: 1px solid var(--glass-border); padding-bottom: 0.85rem; margin-bottom: 1rem;">

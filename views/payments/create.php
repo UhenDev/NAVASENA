@@ -39,7 +39,7 @@ use App\Helpers\View;
             <?= CSRF::field() ?>
 
             <!-- Grid 2 Kolom Input Transaksi -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-two-col-grid">
                 <!-- Kolom Kiri: Pilih Siswa & Nominal -->
                 <div>
                     <!-- 1. Pilih Siswa -->

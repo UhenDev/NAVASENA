@@ -71,7 +71,7 @@ use App\Helpers\View;
         </h2>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+    <div class="responsive-grid-3">
         <?php foreach ($stageProgress as $sp): ?>
             <div style="background: rgba(11, 16, 29, 0.65); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1.25rem; transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.borderColor='var(--glass-border-gold)'" onmouseout="this.style.borderColor='var(--glass-border)'">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 0.5rem;">
